@@ -1,14 +1,14 @@
 ﻿using System;
 using CityPop.Character.Configurations;
 using CityPop.Core;
-using CityPop.Core.Attributes;
+using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
 {
-    [ViewData(typeof(FaceVisualsData))]
+    [DataBinding(typeof(FaceVisualsData))]
     public partial class FaceVisualsView : View
         , FaceVisualsData.IAddedListener
         , FaceVisualsData.IRemovedListener

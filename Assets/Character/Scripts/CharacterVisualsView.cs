@@ -1,10 +1,10 @@
 ﻿using CityPop.Core;
-using CityPop.Core.Attributes;
+using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 
 namespace CityPop.Character
 {
-    [ViewData(typeof(CharacterVisualsData))]
+    [DataBinding(typeof(CharacterVisualsData))]
     public partial class CharacterVisualsView : View
         , CharacterVisualsData.IAddedListener
         , CharacterVisualsData.IRemovedListener

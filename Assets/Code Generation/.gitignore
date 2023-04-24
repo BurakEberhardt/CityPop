@@ -1,0 +1,11 @@
+obj/
+Debug/
+bin/
+
+*.pdb
+*.pdb.meta
+*.deps.json
+*.deps.json.meta 
+
+!*.sln
+!*.csproj

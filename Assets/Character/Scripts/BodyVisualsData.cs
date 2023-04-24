@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 
 namespace CityPop.Character
@@ -8,13 +9,9 @@ namespace CityPop.Character
     {
     }
 
-    
-    [Serializable]
-    public class BodyVisualsData
+    [Serializable, Data]
+    public partial class BodyVisualsData
     {
-        public interface IAddedListener { void OnBodyVisualsData(BodyVisualsData data); }
-        public interface IRemovedListener { void OnBodyVisualsDataRemoved(); }
-        
         [SerializeField] BodyType _type;
         public BodyType Type
         {
@@ -22,7 +19,7 @@ namespace CityPop.Character
             set
             {
                 _type = value;
-                
+
                 foreach (var listener in _typeListeners) 
                     listener.OnBodyType(value);
             }

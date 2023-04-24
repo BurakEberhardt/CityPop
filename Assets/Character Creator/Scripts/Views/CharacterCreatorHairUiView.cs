@@ -1,15 +1,15 @@
 ﻿using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
-using CityPop.Core.Attributes;
+using CityPop.Core.Shared.Attributes;
 using Core.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CityPop.CharacterCreator.Views
 {
-    [ViewData(typeof(HairVisualsData))]
-    [ViewData(typeof(CharacterCreatorHairConfiguration))]
+    [DataBinding(typeof(HairVisualsData))]
+    [DataBinding(typeof(CharacterCreatorHairConfiguration))]
     public partial class CharacterCreatorHairUiView : View
         , HairVisualsData.ITypeListener
         , HairVisualsData.IColorListener

@@ -1,14 +1,14 @@
 ﻿using System;
 using CityPop.Character.Configurations;
 using CityPop.Core;
-using CityPop.Core.Attributes;
+using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
 {
-    [ViewData(typeof(BodyVisualsData))]
+    [DataBinding(typeof(BodyVisualsData))]
     public partial class BodyVisualsView : View
         , BodyVisualsData.IAddedListener
         , BodyVisualsData.IRemovedListener

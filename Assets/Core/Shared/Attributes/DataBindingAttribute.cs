@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace CityPop.Core.Attributes
+namespace CityPop.Core.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
-    public class ViewDataAttribute : Attribute
+    public class DataBindingAttribute : Attribute
     {
         public readonly Type Type;
 
-        public ViewDataAttribute(Type type)
+        public DataBindingAttribute(Type type)
         {
             Type = type;
         }

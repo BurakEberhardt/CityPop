@@ -1,15 +1,15 @@
 ﻿using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
-using CityPop.Core.Attributes;
+using CityPop.Core.Shared.Attributes;
 using Core.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CityPop.CharacterCreator.Views
 {
-    [ViewData(typeof(BodyVisualsData))]
-    [ViewData(typeof(CharacterCreatorBodyConfiguration))]
+    [DataBinding(typeof(BodyVisualsData))]
+    [DataBinding(typeof(CharacterCreatorBodyConfiguration))]
     public partial class CharacterCreatorBodyUiView : View
         , BodyVisualsData.ITypeListener
         , BodyVisualsData.IColorListener
