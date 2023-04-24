@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Character Assets
+  m_EditorClassIdentifier: 
+  m_GroupName: Character Assets
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 1d58c899ebb9cbf40b46980918f299a0
+  m_SerializeEntries:
+  - m_GUID: 5e12aa3bc478485498c90b20baf0fd39
+    m_Address: Character/Body/0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: afca0bc88f8a6a84a910218b4d751f59
+    m_Address: Character/Body/1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4663c9a9ab64bd545b42181aa83787df
+    m_Address: Character/Body/2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d4023aee47182746989683e4e2dbe0b
+    m_Address: Character/Face/0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4679a319dcd1c0d4d8e99a4a3e360c97
+    m_Address: Character/Face/1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a157d830efa5e3428de7e2c9b103714
+    m_Address: Character/Face/2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44e0472762daf5d44bfa7de85cc9f6c7
+    m_Address: Character/Hair/0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6bf8df058f9f1048971665f17ed9793
+    m_Address: Character/Hair/1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 590a288716c758a448bbe6aeb9ce932d
+    m_Address: Character/Hair/2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4ccdcc25a5d66414981dba779994e41c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 210283051ef321040bedaf3cc8524cf2, type: 2}
+    - {fileID: 11400000, guid: 907c90a6143528344936161a71a15309, type: 2}
