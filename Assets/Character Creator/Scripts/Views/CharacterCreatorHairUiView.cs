@@ -80,20 +80,6 @@ namespace CityPop.CharacterCreator.Views
             _hairVisualsData.Type = _characterCreatorHairConfiguration.Types[_hairIndex];
         }
       
-        public async void OnHairType(HairType type)
-        {
-            var hairAsset = CharacterVisualsAddressables.GetHairVisualsConfiguration(type);
-            var configuration = await hairAsset.Task;
-
-            _iconImage.sprite = configuration.Sprite;
-        }
-
-
-        public void OnHairColor(Color32 color)
-        {
-            _iconImage.color = color;
-        }
-
         public void OnCharacterCreatorHairConfiguration(CharacterCreatorHairConfiguration data)
         {
             _prevHairButton.onClick.AddListener(PrevHair);
@@ -106,6 +92,19 @@ namespace CityPop.CharacterCreator.Views
         {
             _prevHairButton.onClick.RemoveListener(PrevHair);
             _nextHairButton.onClick.RemoveListener(NextHair);
+        }
+
+        async void HairVisualsData.ITypeListener.OnType(HairType type)
+        {
+            var hairAsset = CharacterVisualsAddressables.GetHairVisualsConfiguration(type);
+            var configuration = await hairAsset.Task;
+
+            _iconImage.sprite = configuration.Sprite;
+        }
+
+        void HairVisualsData.IColorListener.OnColor(Color32 color)
+        {
+            _iconImage.color = color;
         }
     }
 }

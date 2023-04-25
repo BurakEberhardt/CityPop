@@ -80,20 +80,6 @@ namespace CityPop.CharacterCreator.Views
             _bodyVisualsData.Type = _characterCreatorBodyConfiguration.Types[_bodyIndex];
         }
       
-        public async void OnBodyType(BodyType type)
-        {
-            var bodyAsset = CharacterVisualsAddressables.GetBodyVisualsConfiguration(type);
-            var configuration = await bodyAsset.Task;
-
-            _iconImage.sprite = configuration.Sprite;
-        }
-
-
-        public void OnBodyColor(Color32 color)
-        {
-            _iconImage.color = color;
-        }
-
         public void OnCharacterCreatorBodyConfiguration(CharacterCreatorBodyConfiguration data)
         {
             _prevBodyButton.onClick.AddListener(PrevBody);
@@ -106,6 +92,19 @@ namespace CityPop.CharacterCreator.Views
         {
             _prevBodyButton.onClick.RemoveListener(PrevBody);
             _nextBodyButton.onClick.RemoveListener(NextBody);
+        }
+
+        async void BodyVisualsData.ITypeListener.OnType(BodyType type)
+        {
+            var bodyAsset = CharacterVisualsAddressables.GetBodyVisualsConfiguration(type);
+            var configuration = await bodyAsset.Task;
+
+            _iconImage.sprite = configuration.Sprite;
+        }
+
+        void BodyVisualsData.IColorListener.OnColor(Color32 color)
+        {
+            _iconImage.color = color;
         }
     }
 }

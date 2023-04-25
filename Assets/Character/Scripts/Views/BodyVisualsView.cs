@@ -1,9 +1,7 @@
-﻿using System;
-using CityPop.Character.Configurations;
+﻿using CityPop.Character.Configurations;
 using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
@@ -16,9 +14,9 @@ namespace CityPop.Character
         , BodyVisualsData.IColorListener
     {
         [SerializeField] SpriteRenderer _bodyRenderer;
-        protected BodyVisualsData _bodyVisualsData;
         AsyncOperationHandle<BodyConfiguration> _bodyAsset;
 
+        protected BodyVisualsData _bodyVisualsData;
         public BodyVisualsData BodyVisualsData
         {
             get => _bodyVisualsData;
@@ -28,7 +26,7 @@ namespace CityPop.Character
                 {
                     _bodyVisualsData.RemoveTypeListener(this);
                     _bodyVisualsData.RemoveColorListener(this);
-                    OnBodyVisualsDataRemoved();
+                    (this as BodyVisualsData.IRemovedListener).OnRemoved();
                 }
 
                 _bodyVisualsData = value;
@@ -37,7 +35,7 @@ namespace CityPop.Character
                 {
                     _bodyVisualsData.AddTypeListener(this);
                     _bodyVisualsData.AddColorListener(this);
-                    OnBodyVisualsData(_bodyVisualsData);
+                    (this as BodyVisualsData.IAddedListener).OnAdded(_bodyVisualsData);
                 }
             }
         }
@@ -47,15 +45,15 @@ namespace CityPop.Character
             // Addressables.Release(_bodyAsset);
         }
 
-        public void OnBodyVisualsData(BodyVisualsData data)
+        void BodyVisualsData.IAddedListener.OnAdded(BodyVisualsData bodyVisualsData)
         {
         }
 
-        public void OnBodyVisualsDataRemoved()
+        void BodyVisualsData.IRemovedListener.OnRemoved()
         {
         }
 
-        public async void OnBodyType(BodyType type)
+        async void BodyVisualsData.ITypeListener.OnType(BodyType type)
         {
             // Addressables.Release(_bodyAsset);
             _bodyAsset = CharacterVisualsAddressables.GetBodyVisualsConfiguration(type);
@@ -65,8 +63,7 @@ namespace CityPop.Character
             _bodyRenderer.sprite = configuration.Sprite;
         }
 
-
-        public void OnBodyColor(Color32 color)
+        void BodyVisualsData.IColorListener.OnColor(Color32 color)
         {
             _bodyRenderer.color = color;
         }

@@ -14,7 +14,6 @@ namespace CityPop.Character
         [SerializeField] FaceVisualsView _faceVisuals;
 
         protected CharacterVisualsData _characterVisualsData;
-
         public CharacterVisualsData CharacterVisualsData
         {
             get => _characterVisualsData;
@@ -22,26 +21,26 @@ namespace CityPop.Character
             {
                 if (_characterVisualsData != null)
                 {
-                    OnCharacterVisualsDataRemoved();
+                    (this as CharacterVisualsData.IRemovedListener).OnRemoved();
                 }
 
                 _characterVisualsData = value;
 
                 if (_characterVisualsData != null)
                 {
-                    OnCharacterVisualsData(_characterVisualsData);
+                    (this as CharacterVisualsData.IAddedListener).OnAdded(_characterVisualsData);
                 }
             }
         }
 
-        public void OnCharacterVisualsData(CharacterVisualsData data)
+        void CharacterVisualsData.IAddedListener.OnAdded(CharacterVisualsData characterVisualsData)
         {
-            _bodyVisuals.BodyVisualsData = data.Body;
-            _hairVisuals.HairVisualsData = data.Hair;
-            _faceVisuals.FaceVisualsData = data.Face;
+            _bodyVisuals.BodyVisualsData = characterVisualsData.Body;
+            _hairVisuals.HairVisualsData = characterVisualsData.Hair;
+            _faceVisuals.FaceVisualsData = characterVisualsData.Face;
         }
 
-        public void OnCharacterVisualsDataRemoved()
+        void CharacterVisualsData.IRemovedListener.OnRemoved()
         {
             _bodyVisuals.BodyVisualsData = null;
             _hairVisuals.HairVisualsData = null;

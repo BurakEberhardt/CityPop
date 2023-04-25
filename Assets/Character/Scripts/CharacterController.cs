@@ -7,13 +7,21 @@ namespace CityPop.Character
         , CharacterVisualsData.IRemovedListener
     {
         CharacterVisualsView _characterVisuals;
-        
+
         public void OnCharacterVisualsData(CharacterVisualsData data)
         {
-            _characterVisuals = Instantiate(Resources.Load<CharacterVisualsView>($"CharacterVisuals-{data.Body.Type}"), transform);
         }
 
         public void OnCharacterVisualsDataRemoved()
+        {
+        }
+
+        void CharacterVisualsData.IAddedListener.OnAdded(CharacterVisualsData characterVisualsData)
+        {
+            _characterVisuals = Instantiate(Resources.Load<CharacterVisualsView>($"CharacterVisuals-{characterVisualsData.Body.Type}"), transform);
+        }
+
+        void CharacterVisualsData.IRemovedListener.OnRemoved()
         {
             Destroy(_characterVisuals);
         }

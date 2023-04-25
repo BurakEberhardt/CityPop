@@ -1,9 +1,7 @@
-﻿using System;
-using CityPop.Character.Configurations;
+﻿using CityPop.Character.Configurations;
 using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
@@ -16,9 +14,9 @@ namespace CityPop.Character
         , FaceVisualsData.IColorListener
     {
         [SerializeField] SpriteRenderer _faceRenderer;
-        protected FaceVisualsData _faceVisualsData;
         AsyncOperationHandle<FaceConfiguration> _faceAsset;
 
+        protected FaceVisualsData _faceVisualsData;
         public FaceVisualsData FaceVisualsData
         {
             get => _faceVisualsData;
@@ -28,7 +26,7 @@ namespace CityPop.Character
                 {
                     _faceVisualsData.RemoveTypeListener(this);
                     _faceVisualsData.RemoveColorListener(this);
-                    OnFaceVisualsDataRemoved();
+                    (this as FaceVisualsData.IRemovedListener).OnRemoved();
                 }
 
                 _faceVisualsData = value;
@@ -37,7 +35,7 @@ namespace CityPop.Character
                 {
                     _faceVisualsData.AddTypeListener(this);
                     _faceVisualsData.AddColorListener(this);
-                    OnFaceVisualsData(_faceVisualsData);
+                    (this as FaceVisualsData.IAddedListener).OnAdded(_faceVisualsData);
                 }
             }
         }
@@ -47,15 +45,15 @@ namespace CityPop.Character
             // Addressables.Release(_faceAsset);
         }
 
-        public void OnFaceVisualsData(FaceVisualsData data)
+        void FaceVisualsData.IAddedListener.OnAdded(FaceVisualsData faceVisualsData)
         {
         }
 
-        public void OnFaceVisualsDataRemoved()
+        void FaceVisualsData.IRemovedListener.OnRemoved()
         {
         }
 
-        public async void OnFaceType(FaceType type)
+        async void FaceVisualsData.ITypeListener.OnType(FaceType type)
         {
             // Addressables.Release(_faceAsset);
             _faceAsset = CharacterVisualsAddressables.GetFaceVisualsConfiguration(type);
@@ -65,8 +63,7 @@ namespace CityPop.Character
             _faceRenderer.sprite = configuration.Sprite;
         }
 
-
-        public void OnFaceColor(Color32 color)
+        void FaceVisualsData.IColorListener.OnColor(Color32 color)
         {
             _faceRenderer.color = color;
         }

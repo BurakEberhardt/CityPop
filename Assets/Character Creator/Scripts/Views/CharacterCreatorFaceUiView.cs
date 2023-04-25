@@ -80,20 +80,6 @@ namespace CityPop.CharacterCreator.Views
             _faceVisualsData.Type = _characterCreatorFaceConfiguration.Types[_faceIndex];
         }
       
-        public async void OnFaceType(FaceType type)
-        {
-            var faceAsset = CharacterVisualsAddressables.GetFaceVisualsConfiguration(type);
-            var configuration = await faceAsset.Task;
-
-            _iconImage.sprite = configuration.Sprite;
-        }
-
-
-        public void OnFaceColor(Color32 color)
-        {
-            _iconImage.color = color;
-        }
-
         public void OnCharacterCreatorFaceConfiguration(CharacterCreatorFaceConfiguration data)
         {
             _prevFaceButton.onClick.AddListener(PrevFace);
@@ -106,6 +92,19 @@ namespace CityPop.CharacterCreator.Views
         {
             _prevFaceButton.onClick.RemoveListener(PrevFace);
             _nextFaceButton.onClick.RemoveListener(NextFace);
+        }
+
+        async void FaceVisualsData.ITypeListener.OnType(FaceType type)
+        {
+            var faceAsset = CharacterVisualsAddressables.GetFaceVisualsConfiguration(type);
+            var configuration = await faceAsset.Task;
+
+            _iconImage.sprite = configuration.Sprite;
+        }
+
+        void FaceVisualsData.IColorListener.OnColor(Color32 color)
+        {
+            _iconImage.color = color;
         }
     }
 }

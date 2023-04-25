@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <OutputPath>../../../</OutputPath>
+        <OutputPath>../</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
 
@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <Reference Include="Core.Shared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\..\..\Library\ScriptAssemblies\Core.Shared.dll</HintPath>
+            <HintPath>..\..\..\Library\ScriptAssemblies\Core.Shared.dll</HintPath>
             <Private>false</Private>
         </Reference>
     </ItemGroup>

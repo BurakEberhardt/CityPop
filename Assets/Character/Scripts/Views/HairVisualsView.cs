@@ -28,7 +28,7 @@ namespace CityPop.Character
                 {
                     _hairVisualsData.RemoveTypeListener(this);
                     _hairVisualsData.RemoveColorListener(this);
-                    OnHairVisualsDataRemoved();
+                    (this as HairVisualsData.IRemovedListener).OnRemoved();
                 }
 
                 _hairVisualsData = value;
@@ -37,7 +37,7 @@ namespace CityPop.Character
                 {
                     _hairVisualsData.AddTypeListener(this);
                     _hairVisualsData.AddColorListener(this);
-                    OnHairVisualsData(_hairVisualsData);
+                    (this as HairVisualsData.IAddedListener).OnAdded(_hairVisualsData);
                 }
             }
         }
@@ -47,15 +47,15 @@ namespace CityPop.Character
             // Addressables.Release(_hairAsset);
         }
 
-        public void OnHairVisualsData(HairVisualsData data)
+        void HairVisualsData.IAddedListener.OnAdded(HairVisualsData hairVisualsData)
         {
         }
 
-        public void OnHairVisualsDataRemoved()
+        void HairVisualsData.IRemovedListener.OnRemoved()
         {
         }
 
-        public async void OnHairType(HairType type)
+        async void HairVisualsData.ITypeListener.OnType(HairType type)
         {
             // Addressables.Release(_hairAsset);
             _hairAsset = CharacterVisualsAddressables.GetHairVisualsConfiguration(type);
@@ -65,8 +65,7 @@ namespace CityPop.Character
             _hairRenderer.sprite = configuration.Sprite;
         }
 
-
-        public void OnHairColor(Color32 color)
+        void HairVisualsData.IColorListener.OnColor(Color32 color)
         {
             _hairRenderer.color = color;
         }
