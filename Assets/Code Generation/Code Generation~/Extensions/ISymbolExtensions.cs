@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,7 +12,7 @@ namespace CodeGeneration.Extensions
     {
         public static string GetFullName(this ISymbol symbol)
         {
-            return symbol.ContainingNamespace != null ? $"{symbol.ContainingNamespace}.{symbol.Name}" : symbol.Name;
+            return symbol.ToString();
         }
         
         public static bool HasAttribute(this ISymbol symbol, string fullName)
@@ -24,6 +25,18 @@ namespace CodeGeneration.Extensions
                 
                 return fullName == attributeClass.GetFullName();
             });
+        }
+        
+        public static AttributeData[] GetAttributes(this ISymbol symbol, string fullName)
+        {
+            return symbol.GetAttributes().Where(attr =>
+            {
+                var attributeClass = attr.AttributeClass;
+                if (attributeClass == null)
+                    return false;
+                
+                return fullName == attributeClass.GetFullName();
+            }).ToArray();
         }
         
         public static CompilationUnitSyntax CreateCompilationUnitForClass(this ISymbol symbol, IEnumerable<MemberDeclarationSyntax> members)

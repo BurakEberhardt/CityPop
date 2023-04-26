@@ -213,7 +213,9 @@
       "version": "file:com.zen.core",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.addressables": "1.0.0"
+      }
     },
     "com.zen.input": {
       "version": "file:com.zen.input",

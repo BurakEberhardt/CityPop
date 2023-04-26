@@ -1,14 +1,13 @@
 ﻿using CityPop.Character;
+using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 
 namespace CityPop.CharacterCreator.Configurations
 {
     [CreateAssetMenu(menuName = "CityPop/Character Creator/Hair", fileName = "Character Creator Hair Configuration")]
-    public class CharacterCreatorHairConfiguration : ScriptableObject
+    [Data]
+    public partial class CharacterCreatorHairConfiguration : ScriptableObject
     {
-        public interface IAddedListener { void OnCharacterCreatorHairConfiguration(CharacterCreatorHairConfiguration data); }
-        public interface IRemovedListener { void OnCharacterCreatorHairConfigurationRemoved(); }
-        
         [field: SerializeField]
         public HairType[] Types { get; set; }
         [field: SerializeField]

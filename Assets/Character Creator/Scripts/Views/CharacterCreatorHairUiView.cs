@@ -21,48 +21,6 @@ namespace CityPop.CharacterCreator.Views
         [SerializeField] Button _prevHairButton;
         int _hairIndex;
 
-        HairVisualsData _hairVisualsData;
-        public HairVisualsData HairVisualsData
-        {
-            get => _hairVisualsData;
-            set
-            {
-                if (_hairVisualsData != null)
-                {
-                    _hairVisualsData.RemoveTypeListener(this);
-                    _hairVisualsData.RemoveColorListener(this);
-                }
-
-                _hairVisualsData = value;
-
-                if (_hairVisualsData != null)
-                {
-                    _hairVisualsData.AddTypeListener(this);
-                    _hairVisualsData.AddColorListener(this);
-                }
-            }
-        }
-        
-        CharacterCreatorHairConfiguration _characterCreatorHairConfiguration;
-        public CharacterCreatorHairConfiguration CharacterCreatorHairConfiguration
-        {
-            get => _characterCreatorHairConfiguration;
-            set
-            {
-                if (_characterCreatorHairConfiguration != null)
-                {
-                    OnCharacterCreatorHairConfigurationRemoved();
-                }
-
-                _characterCreatorHairConfiguration = value;
-
-                if (_characterCreatorHairConfiguration != null)
-                {
-                    OnCharacterCreatorHairConfiguration(_characterCreatorHairConfiguration);
-                }
-            }
-        }
-
         void PrevHair()
         {
             _hairIndex = (--_hairIndex).Mod(_characterCreatorHairConfiguration.Types.Length);
@@ -79,8 +37,8 @@ namespace CityPop.CharacterCreator.Views
         {
             _hairVisualsData.Type = _characterCreatorHairConfiguration.Types[_hairIndex];
         }
-      
-        public void OnCharacterCreatorHairConfiguration(CharacterCreatorHairConfiguration data)
+
+        void CharacterCreatorHairConfiguration.IAddedListener.OnAdded(CharacterCreatorHairConfiguration characterCreatorHairConfiguration)
         {
             _prevHairButton.onClick.AddListener(PrevHair);
             _nextHairButton.onClick.AddListener(NextHair);
@@ -88,7 +46,7 @@ namespace CityPop.CharacterCreator.Views
             UpdateHair();
         }
 
-        public void OnCharacterCreatorHairConfigurationRemoved()
+        void CharacterCreatorHairConfiguration.IRemovedListener.OnRemoved()
         {
             _prevHairButton.onClick.RemoveListener(PrevHair);
             _nextHairButton.onClick.RemoveListener(NextHair);

@@ -1,12 +1,12 @@
-﻿using CityPop.Character.Configurations;
-using CityPop.Core;
+﻿using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
+using Core.Extensions;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
 {
     [DataBinding(typeof(BodyVisualsData))]
+
     public partial class BodyVisualsView : View
         , BodyVisualsData.IAddedListener
         , BodyVisualsData.IRemovedListener
@@ -14,36 +14,6 @@ namespace CityPop.Character
         , BodyVisualsData.IColorListener
     {
         [SerializeField] SpriteRenderer _bodyRenderer;
-        AsyncOperationHandle<BodyConfiguration> _bodyAsset;
-
-        protected BodyVisualsData _bodyVisualsData;
-        public BodyVisualsData BodyVisualsData
-        {
-            get => _bodyVisualsData;
-            set
-            {
-                if (_bodyVisualsData != null)
-                {
-                    _bodyVisualsData.RemoveTypeListener(this);
-                    _bodyVisualsData.RemoveColorListener(this);
-                    (this as BodyVisualsData.IRemovedListener).OnRemoved();
-                }
-
-                _bodyVisualsData = value;
-
-                if (_bodyVisualsData != null)
-                {
-                    _bodyVisualsData.AddTypeListener(this);
-                    _bodyVisualsData.AddColorListener(this);
-                    (this as BodyVisualsData.IAddedListener).OnAdded(_bodyVisualsData);
-                }
-            }
-        }
-
-        void OnDestroy()
-        {
-            // Addressables.Release(_bodyAsset);
-        }
 
         void BodyVisualsData.IAddedListener.OnAdded(BodyVisualsData bodyVisualsData)
         {
@@ -55,9 +25,9 @@ namespace CityPop.Character
 
         async void BodyVisualsData.ITypeListener.OnType(BodyType type)
         {
-            // Addressables.Release(_bodyAsset);
-            _bodyAsset = CharacterVisualsAddressables.GetBodyVisualsConfiguration(type);
-            var configuration = await _bodyAsset.Task;
+            var bodyAsset = CharacterVisualsAddressables.GetBodyVisualsConfiguration(type);
+            var configuration = await bodyAsset.Task;
+            bodyAsset.Release();
 
             transform.localPosition = configuration.Position;
             _bodyRenderer.sprite = configuration.Sprite;

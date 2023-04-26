@@ -21,48 +21,6 @@ namespace CityPop.CharacterCreator.Views
         [SerializeField] Button _prevBodyButton;
         int _bodyIndex;
 
-        BodyVisualsData _bodyVisualsData;
-        public BodyVisualsData BodyVisualsData
-        {
-            get => _bodyVisualsData;
-            set
-            {
-                if (_bodyVisualsData != null)
-                {
-                    _bodyVisualsData.RemoveTypeListener(this);
-                    _bodyVisualsData.RemoveColorListener(this);
-                }
-
-                _bodyVisualsData = value;
-
-                if (_bodyVisualsData != null)
-                {
-                    _bodyVisualsData.AddTypeListener(this);
-                    _bodyVisualsData.AddColorListener(this);
-                }
-            }
-        }
-        
-        CharacterCreatorBodyConfiguration _characterCreatorBodyConfiguration;
-        public CharacterCreatorBodyConfiguration CharacterCreatorBodyConfiguration
-        {
-            get => _characterCreatorBodyConfiguration;
-            set
-            {
-                if (_characterCreatorBodyConfiguration != null)
-                {
-                    OnCharacterCreatorBodyConfigurationRemoved();
-                }
-
-                _characterCreatorBodyConfiguration = value;
-
-                if (_characterCreatorBodyConfiguration != null)
-                {
-                    OnCharacterCreatorBodyConfiguration(_characterCreatorBodyConfiguration);
-                }
-            }
-        }
-
         void PrevBody()
         {
             _bodyIndex = (--_bodyIndex).Mod(_characterCreatorBodyConfiguration.Types.Length);
@@ -79,8 +37,8 @@ namespace CityPop.CharacterCreator.Views
         {
             _bodyVisualsData.Type = _characterCreatorBodyConfiguration.Types[_bodyIndex];
         }
-      
-        public void OnCharacterCreatorBodyConfiguration(CharacterCreatorBodyConfiguration data)
+
+        void CharacterCreatorBodyConfiguration.IAddedListener.OnAdded(CharacterCreatorBodyConfiguration characterCreatorBodyConfiguration)
         {
             _prevBodyButton.onClick.AddListener(PrevBody);
             _nextBodyButton.onClick.AddListener(NextBody);
@@ -88,7 +46,7 @@ namespace CityPop.CharacterCreator.Views
             UpdateBody();
         }
 
-        public void OnCharacterCreatorBodyConfigurationRemoved()
+        void CharacterCreatorBodyConfiguration.IRemovedListener.OnRemoved()
         {
             _prevBodyButton.onClick.RemoveListener(PrevBody);
             _nextBodyButton.onClick.RemoveListener(NextBody);

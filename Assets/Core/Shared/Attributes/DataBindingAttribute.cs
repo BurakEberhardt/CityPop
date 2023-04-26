@@ -8,7 +8,7 @@ namespace CityPop.Core.Shared.Attributes
         public Type Type { get; }
         public Accessibility Accessibility { get; }
 
-        public DataBindingAttribute(Type type, Accessibility accessibility = Accessibility.Private)
+        public DataBindingAttribute(Type type, Accessibility accessibility = Accessibility.Public)
         {
             Type = type;
             Accessibility = accessibility;

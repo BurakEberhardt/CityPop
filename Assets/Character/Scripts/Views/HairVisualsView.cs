@@ -1,10 +1,7 @@
-﻿using System;
-using CityPop.Character.Configurations;
-using CityPop.Core;
+﻿using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
+using Core.Extensions;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CityPop.Character
 {
@@ -16,37 +13,7 @@ namespace CityPop.Character
         , HairVisualsData.IColorListener
     {
         [SerializeField] SpriteRenderer _hairRenderer;
-        protected HairVisualsData _hairVisualsData;
-        AsyncOperationHandle<HairConfiguration> _hairAsset;
-
-        public HairVisualsData HairVisualsData
-        {
-            get => _hairVisualsData;
-            set
-            {
-                if (_hairVisualsData != null)
-                {
-                    _hairVisualsData.RemoveTypeListener(this);
-                    _hairVisualsData.RemoveColorListener(this);
-                    (this as HairVisualsData.IRemovedListener).OnRemoved();
-                }
-
-                _hairVisualsData = value;
-
-                if (_hairVisualsData != null)
-                {
-                    _hairVisualsData.AddTypeListener(this);
-                    _hairVisualsData.AddColorListener(this);
-                    (this as HairVisualsData.IAddedListener).OnAdded(_hairVisualsData);
-                }
-            }
-        }
-
-        void OnDestroy()
-        {
-            // Addressables.Release(_hairAsset);
-        }
-
+        
         void HairVisualsData.IAddedListener.OnAdded(HairVisualsData hairVisualsData)
         {
         }
@@ -57,9 +24,9 @@ namespace CityPop.Character
 
         async void HairVisualsData.ITypeListener.OnType(HairType type)
         {
-            // Addressables.Release(_hairAsset);
-            _hairAsset = CharacterVisualsAddressables.GetHairVisualsConfiguration(type);
-            var configuration = await _hairAsset.Task;
+            var hairAsset = CharacterVisualsAddressables.GetHairVisualsConfiguration(type);
+            var configuration = await hairAsset.Task;
+            hairAsset.Release();
 
             transform.localPosition = configuration.Position;
             _hairRenderer.sprite = configuration.Sprite;

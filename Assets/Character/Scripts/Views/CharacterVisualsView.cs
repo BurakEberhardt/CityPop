@@ -13,26 +13,6 @@ namespace CityPop.Character
         [SerializeField] HairVisualsView _hairVisuals;
         [SerializeField] FaceVisualsView _faceVisuals;
 
-        protected CharacterVisualsData _characterVisualsData;
-        public CharacterVisualsData CharacterVisualsData
-        {
-            get => _characterVisualsData;
-            set
-            {
-                if (_characterVisualsData != null)
-                {
-                    (this as CharacterVisualsData.IRemovedListener).OnRemoved();
-                }
-
-                _characterVisualsData = value;
-
-                if (_characterVisualsData != null)
-                {
-                    (this as CharacterVisualsData.IAddedListener).OnAdded(_characterVisualsData);
-                }
-            }
-        }
-
         void CharacterVisualsData.IAddedListener.OnAdded(CharacterVisualsData characterVisualsData)
         {
             _bodyVisuals.BodyVisualsData = characterVisualsData.Body;

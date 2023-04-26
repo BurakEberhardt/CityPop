@@ -13,11 +13,4 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.1.0" />
     </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="Core.Shared, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\..\Library\ScriptAssemblies\Core.Shared.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
 </Project>

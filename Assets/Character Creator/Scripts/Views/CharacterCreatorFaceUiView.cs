@@ -21,48 +21,6 @@ namespace CityPop.CharacterCreator.Views
         [SerializeField] Button _prevFaceButton;
         int _faceIndex;
 
-        FaceVisualsData _faceVisualsData;
-        public FaceVisualsData FaceVisualsData
-        {
-            get => _faceVisualsData;
-            set
-            {
-                if (_faceVisualsData != null)
-                {
-                    _faceVisualsData.RemoveTypeListener(this);
-                    _faceVisualsData.RemoveColorListener(this);
-                }
-
-                _faceVisualsData = value;
-
-                if (_faceVisualsData != null)
-                {
-                    _faceVisualsData.AddTypeListener(this);
-                    _faceVisualsData.AddColorListener(this);
-                }
-            }
-        }
-        
-        CharacterCreatorFaceConfiguration _characterCreatorFaceConfiguration;
-        public CharacterCreatorFaceConfiguration CharacterCreatorFaceConfiguration
-        {
-            get => _characterCreatorFaceConfiguration;
-            set
-            {
-                if (_characterCreatorFaceConfiguration != null)
-                {
-                    OnCharacterCreatorFaceConfigurationRemoved();
-                }
-
-                _characterCreatorFaceConfiguration = value;
-
-                if (_characterCreatorFaceConfiguration != null)
-                {
-                    OnCharacterCreatorFaceConfiguration(_characterCreatorFaceConfiguration);
-                }
-            }
-        }
-
         void PrevFace()
         {
             _faceIndex = (--_faceIndex).Mod(_characterCreatorFaceConfiguration.Types.Length);
@@ -80,7 +38,7 @@ namespace CityPop.CharacterCreator.Views
             _faceVisualsData.Type = _characterCreatorFaceConfiguration.Types[_faceIndex];
         }
       
-        public void OnCharacterCreatorFaceConfiguration(CharacterCreatorFaceConfiguration data)
+        void CharacterCreatorFaceConfiguration.IAddedListener.OnAdded(CharacterCreatorFaceConfiguration characterCreatorFaceConfiguration)
         {
             _prevFaceButton.onClick.AddListener(PrevFace);
             _nextFaceButton.onClick.AddListener(NextFace);
@@ -88,7 +46,7 @@ namespace CityPop.CharacterCreator.Views
             UpdateFace();
         }
 
-        public void OnCharacterCreatorFaceConfigurationRemoved()
+        void CharacterCreatorFaceConfiguration.IRemovedListener.OnRemoved()
         {
             _prevFaceButton.onClick.RemoveListener(PrevFace);
             _nextFaceButton.onClick.RemoveListener(NextFace);

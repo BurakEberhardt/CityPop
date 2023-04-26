@@ -26,7 +26,7 @@ namespace CodeGeneration
                     })
                 .Where(symbol => symbol != null)
                 .Where(symbol => symbol.Name.StartsWith("_") && !symbol.IsConst &&
-                                 symbol.DeclaredAccessibility == Accessibility.Private)
+                                 symbol.DeclaredAccessibility == Microsoft.CodeAnalysis.Accessibility.Private)
                 .Where(symbol => symbol.HasAttribute(NameConstants.DataAttributeFullName))
                 .Select((symbol, _) => (Symbol: symbol, symbol.ContainingType))
                 .Where(o => o.ContainingType != null);
@@ -36,11 +36,9 @@ namespace CodeGeneration
 
         void Generate(SourceProductionContext context, (IFieldSymbol Symbol, INamedTypeSymbol ContainingType) data)
         {
-            Logger.Log("7");
-
             var compilationUnitSyntax = data.ContainingType.CreateCompilationUnitForClass(GetMemberList(data.Symbol));
 
-            Logger.Log(compilationUnitSyntax.GetText(Encoding.UTF8).ToString());
+            // Logger.Log(compilationUnitSyntax.GetText(Encoding.UTF8).ToString());
 
             context.AddSource($"{data.ContainingType.Name}{data.Symbol.Name.RemoveFirst().FirstToUpper()}.g.cs",
                 compilationUnitSyntax.GetText(Encoding.UTF8));
@@ -152,7 +150,7 @@ namespace CodeGeneration
                 MethodDeclaration(
                         PredefinedType(
                             Token(SyntaxKind.VoidKeyword)),
-                        Identifier($"Add{symbolNameUppercase}Listener"))
+                        Identifier(string.Format(NameConstants.DataAddBindingListenerName, symbolNameUppercase)))
                     .WithModifiers(
                         TokenList(
                             Token(SyntaxKind.PublicKeyword)))
@@ -180,7 +178,7 @@ namespace CodeGeneration
                 MethodDeclaration(
                         PredefinedType(
                             Token(SyntaxKind.VoidKeyword)),
-                        Identifier($"Remove{symbolNameUppercase}Listener"))
+                        Identifier(string.Format(NameConstants.DataRemoveBindingListenerName, symbolNameUppercase)))
                     .WithModifiers(
                         TokenList(
                             Token(SyntaxKind.PublicKeyword)))

@@ -32,9 +32,6 @@ namespace CodeGeneration
         void Generate(SourceProductionContext context, INamedTypeSymbol symbol)
         {
             var compilationUnitSyntax = symbol.CreateCompilationUnitForClass(GetMemberList(symbol));
-
-            // Logger.Log(compilationUnitSyntax.GetText(Encoding.UTF8).ToString());
-
             context.AddSource($"{symbol.Name}.g.cs", compilationUnitSyntax.GetText(Encoding.UTF8));
         }
 
@@ -42,7 +39,7 @@ namespace CodeGeneration
         {
             return new MemberDeclarationSyntax[]
             {
-                InterfaceDeclaration("IAddedListener")
+                InterfaceDeclaration(NameConstants.DataAddedListenerName)
                     .WithModifiers(
                         TokenList(
                             Token(SyntaxKind.PublicKeyword)))
@@ -51,7 +48,7 @@ namespace CodeGeneration
                             MethodDeclaration(
                                     PredefinedType(
                                         Token(SyntaxKind.VoidKeyword)),
-                                    Identifier($"OnAdded"))
+                                    Identifier(NameConstants.DataAddedListenerMethodName))
                                 .WithParameterList(
                                     ParameterList(
                                         SingletonSeparatedList<ParameterSyntax>(
@@ -61,7 +58,7 @@ namespace CodeGeneration
                                                     IdentifierName(symbol.Name)))))
                                 .WithSemicolonToken(
                                     Token(SyntaxKind.SemicolonToken)))),
-                InterfaceDeclaration("IRemovedListener")
+                InterfaceDeclaration(NameConstants.DataRemovedListenerName)
                     .WithModifiers(
                         TokenList(
                             Token(SyntaxKind.PublicKeyword)))
@@ -70,7 +67,7 @@ namespace CodeGeneration
                             MethodDeclaration(
                                     PredefinedType(
                                         Token(SyntaxKind.VoidKeyword)),
-                                    Identifier($"OnRemoved"))
+                                    Identifier(NameConstants.DataRemovedListenerMethodName))
                                 .WithSemicolonToken(
                                     Token(SyntaxKind.SemicolonToken))))
             };
