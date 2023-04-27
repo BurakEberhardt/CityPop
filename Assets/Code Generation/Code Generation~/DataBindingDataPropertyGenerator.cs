@@ -18,8 +18,7 @@ namespace CodeGeneration
             var symbolProvider = context.SyntaxProvider
                 .CreateSyntaxProvider(
                     (syntaxNode, _) => syntaxNode is ClassDeclarationSyntax classDeclarationSyntax &&
-                                       classDeclarationSyntax.AttributeLists.AnyWithNameContaining(NameConstants
-                                           .DataBindingAttributeName), (syntaxContext, token) =>
+                                       classDeclarationSyntax.AttributeLists.AnyWithNameContaining(NameConstants.DataBindingAttributeName), (syntaxContext, token) =>
                     {
                         var node = (ClassDeclarationSyntax) syntaxContext.Node;
                         var symbol = syntaxContext.SemanticModel.GetDeclaredSymbol(node);
@@ -30,8 +29,7 @@ namespace CodeGeneration
                 {
                     var attributes = symbol.GetAttributes(NameConstants.DataBindingAttributeFullName);
 
-                    Dictionary<INamedTypeSymbol, (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces)>
-                        dataInfos = new();
+                    Dictionary<INamedTypeSymbol, (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces, List<IMethodSymbol> UpdateOnInitializeInterfaceImplementations)> dataInfos = new();
 
                     foreach (var attributeData in attributes)
                     {
@@ -55,13 +53,27 @@ namespace CodeGeneration
                         if (type == null || accessibility == null)
                             continue;
 
-                        dataInfos[type] = (accessibility.Value, new List<INamedTypeSymbol>());
+                        dataInfos[type] = (accessibility.Value, new List<INamedTypeSymbol>(), new List<IMethodSymbol>());
                     }
 
                     foreach (var i in symbol.AllInterfaces)
-                    {
                         if (dataInfos.TryGetValue(i.ContainingType, out var dataInfo))
                             dataInfo.Interfaces.Add(i);
+
+                    foreach (var member in symbol.GetMembers().OfType<IMethodSymbol>())
+                    {
+                        if (member.MethodKind == MethodKind.ExplicitInterfaceImplementation && member.HasAttribute(NameConstants.UpdateOnInitializeAttributeFullName))
+                        {
+                            var interfaceName = member.Name.Substring(0, member.Name.LastIndexOf('.'));
+                            foreach (var kvp in dataInfos)
+                            {
+                                if (kvp.Value.Interfaces.Any(i => i.GetFullName() == interfaceName))
+                                {
+                                    kvp.Value.UpdateOnInitializeInterfaceImplementations.Add(member);
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     return (Symbol: symbol, DataInfos: dataInfos);
@@ -71,24 +83,21 @@ namespace CodeGeneration
         }
 
         void Generate(SourceProductionContext context,
-            (INamedTypeSymbol Symbol,
-                Dictionary<INamedTypeSymbol, (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces)> DataInfos
-                ) data)
+            (INamedTypeSymbol Symbol, Dictionary<INamedTypeSymbol, (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces, List<IMethodSymbol> UpdateOnInitializeInterfaceImplementations)>
+                DataInfos) data)
         {
             foreach (var kvp in data.DataInfos)
             {
-                var compilationUnitSyntax =
-                    data.Symbol.CreateCompilationUnitForClass(GetMemberList(kvp.Key, kvp.Value));
+                var compilationUnitSyntax = data.Symbol.CreateCompilationUnitForClass(GetMemberList(kvp.Key, kvp.Value));
 
                 // Logger.Log(compilationUnitSyntax.GetText(Encoding.UTF8).ToString());
 
-                context.AddSource($"{data.Symbol.Name}{kvp.Key.Name}.g.cs",
-                    compilationUnitSyntax.GetText(Encoding.UTF8));
+                context.AddSource($"{data.Symbol.Name}{kvp.Key.Name}.g.cs", compilationUnitSyntax.GetText(Encoding.UTF8));
             }
         }
 
         IEnumerable<MemberDeclarationSyntax> GetMemberList(INamedTypeSymbol dataBindingSymbol,
-            (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces) dataBindingData)
+            (Accessibility Accessibility, List<INamedTypeSymbol> Interfaces, List<IMethodSymbol> UpdateOnInitializeInterfaceImplementations) dataBindingData)
         {
             var fieldName = GetFieldNameFromDataType(dataBindingSymbol);
 
@@ -96,7 +105,7 @@ namespace CodeGeneration
             {
                 FieldDeclaration(
                         VariableDeclaration(
-                                IdentifierName(dataBindingSymbol.GetFullName()))
+                                IdentifierName($"global::{dataBindingSymbol.GetFullName()}"))
                             .WithVariables(
                                 SingletonSeparatedList<VariableDeclaratorSyntax>(
                                     VariableDeclarator(
@@ -105,7 +114,7 @@ namespace CodeGeneration
                         TokenList(
                             Token(SyntaxKind.PrivateKeyword))),
                 PropertyDeclaration(
-                        IdentifierName(dataBindingSymbol.GetFullName()),
+                        IdentifierName($"global::{dataBindingSymbol.GetFullName()}"),
                         Identifier(dataBindingSymbol.Name))
                     .WithModifiers(
                         TokenList(
@@ -126,13 +135,13 @@ namespace CodeGeneration
                                             SyntaxKind.SetAccessorDeclaration)
                                         .WithBody(
                                             Block(GetPropertyStatements(fieldName, dataBindingSymbol,
-                                                dataBindingData.Interfaces)))
+                                                dataBindingData.Interfaces, dataBindingData.UpdateOnInitializeInterfaceImplementations)))
                                 })))
             };
         }
 
-        IEnumerable<StatementSyntax> GetPropertyStatements(string fieldName, INamedTypeSymbol dataBindingSymbol,
-            List<INamedTypeSymbol> interfaces)
+        IEnumerable<StatementSyntax> GetPropertyStatements(string fieldName, INamedTypeSymbol dataBindingSymbol, List<INamedTypeSymbol> interfaces,
+            List<IMethodSymbol> updateOnInitializeInterfaceImplementations)
         {
             var statements = new List<StatementSyntax>(3);
             var bindings = new List<INamedTypeSymbol>();
@@ -161,14 +170,13 @@ namespace CodeGeneration
 
             if (dataAddedInterface != null || bindings.Count > 0)
             {
-                statements.Add(CreateAddListenersBlock(fieldName, dataAddedInterface, bindings));
+                statements.Add(CreateAddListenersBlock(fieldName, dataAddedInterface, bindings, updateOnInitializeInterfaceImplementations));
             }
 
             return statements;
         }
 
-        StatementSyntax CreateRemoveListenersBlock(string fieldName, INamedTypeSymbol dataRemovedInterface,
-            List<INamedTypeSymbol> bindings)
+        StatementSyntax CreateRemoveListenersBlock(string fieldName, INamedTypeSymbol dataRemovedInterface, List<INamedTypeSymbol> bindings)
         {
             var statements = new List<ExpressionStatementSyntax>(bindings.Count);
 
@@ -196,8 +204,7 @@ namespace CodeGeneration
                     IdentifierName("value")));
         }
 
-        StatementSyntax CreateAddListenersBlock(string fieldName, INamedTypeSymbol dataAddedInterface,
-            List<INamedTypeSymbol> bindings)
+        StatementSyntax CreateAddListenersBlock(string fieldName, INamedTypeSymbol dataAddedInterface, List<INamedTypeSymbol> bindings, List<IMethodSymbol> updateOnInitializeInterfaceImplementations)
         {
             var statements = new List<ExpressionStatementSyntax>(bindings.Count);
 
@@ -206,6 +213,9 @@ namespace CodeGeneration
 
             if (dataAddedInterface != null)
                 statements.Add(CreateDataAddedListener(dataAddedInterface, fieldName));
+
+            foreach (var updateOnInitializeInterfaceImplementation in updateOnInitializeInterfaceImplementations)
+                statements.Add(CreateUpdateOnInitializeMethodInvocation(updateOnInitializeInterfaceImplementation, fieldName));
 
             return IfStatement(
                 BinaryExpression(
@@ -231,7 +241,7 @@ namespace CodeGeneration
                             BinaryExpression(
                                 SyntaxKind.AsExpression,
                                 ThisExpression(),
-                                IdentifierName(@interface.GetFullName()))),
+                                IdentifierName($"global::{@interface.GetFullName()}"))),
                         IdentifierName(NameConstants.DataRemovedListenerMethodName))));
         }
 
@@ -245,7 +255,7 @@ namespace CodeGeneration
                                 BinaryExpression(
                                     SyntaxKind.AsExpression,
                                     ThisExpression(),
-                                    IdentifierName(@interface.GetFullName()))),
+                                    IdentifierName($"global::{@interface.GetFullName()}"))),
                             IdentifierName(NameConstants.DataAddedListenerMethodName)))
                     .WithArgumentList(
                         ArgumentList(
@@ -285,6 +295,31 @@ namespace CodeGeneration
                             SingletonSeparatedList<ArgumentSyntax>(
                                 Argument(
                                     ThisExpression())))));
+        }
+
+        ExpressionStatementSyntax CreateUpdateOnInitializeMethodInvocation(IMethodSymbol methodSymbol, string fieldName)
+        {
+            var name = methodSymbol.Name;
+            var index = name.LastIndexOf('.');
+            var type = name.Substring(0, index);
+            var property = name.Substring(index + 3);
+            var parameter = $"{fieldName}.{property}";
+
+            return ExpressionStatement(
+                InvocationExpression(
+                        MemberAccessExpression(
+                            SyntaxKind.SimpleMemberAccessExpression,
+                            ParenthesizedExpression(
+                                BinaryExpression(
+                                    SyntaxKind.AsExpression,
+                                    ThisExpression(),
+                                    IdentifierName($"global::{type}"))),
+                            IdentifierName($"On{property}")))
+                    .WithArgumentList(
+                        ArgumentList(
+                            SingletonSeparatedList<ArgumentSyntax>(
+                                Argument(
+                                    IdentifierName(parameter))))));
         }
     }
 }

@@ -9,6 +9,9 @@ namespace CodeGeneration.Constants
         
         public const string DataBindingAttributeName = "DataBinding";
         public const string DataBindingAttributeFullName = $"CityPop.Core.Shared.Attributes.{DataBindingAttributeName}Attribute";
+        
+        public const string UpdateOnInitializeAttributeName = "UpdateOnInitialize";
+        public const string UpdateOnInitializeAttributeFullName = $"CityPop.Core.Shared.Attributes.{UpdateOnInitializeAttributeName}Attribute";
 
         public const string DataAddedListenerName = "IAddedListener";
         public const string DataAddedListenerMethodName = "OnAdded";

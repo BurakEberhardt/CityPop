@@ -2,6 +2,7 @@
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CityPop.CharacterCreator.Views
 {
@@ -9,9 +10,9 @@ namespace CityPop.CharacterCreator.Views
     {
         [SerializeField] CharacterCreatorConfiguration _configuration;
         [SerializeField] CharacterVisualsView _characterView;
-        [SerializeField] CharacterCreatorBodyUiView _characterCreatorBodyUiView;
-        [SerializeField] CharacterCreatorHairUiView _characterCreatorHairUiView;
-        [SerializeField] CharacterCreatorFaceUiView _characterCreatorFaceUiView;
+        [FormerlySerializedAs("_characterCreatorBodyUiView")] [SerializeField] CharacterCreatorBodySelectorUiView _characterCreatorBodySelectorUiView;
+        [FormerlySerializedAs("_characterCreatorHairUiView")] [SerializeField] CharacterCreatorHairSelectorUiView _characterCreatorHairSelectorUiView;
+        [FormerlySerializedAs("_characterCreatorFaceUiView")] [SerializeField] CharacterCreatorFaceSelectorUiView _characterCreatorFaceSelectorUiView;
         CharacterVisualsData _characterData;
 
         void Awake()
@@ -19,14 +20,14 @@ namespace CityPop.CharacterCreator.Views
             _characterData = new CharacterVisualsData();
             _characterView.CharacterVisualsData = _characterData;
             
-            _characterCreatorBodyUiView.BodyVisualsData = _characterData.Body;
-            _characterCreatorBodyUiView.CharacterCreatorBodyConfiguration = _configuration.Body;
+            _characterCreatorBodySelectorUiView.BodyVisualsData = _characterData.Body;
+            _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = _configuration.Body;
             
-            _characterCreatorHairUiView.HairVisualsData = _characterData.Hair;
-            _characterCreatorHairUiView.CharacterCreatorHairConfiguration = _configuration.Hair;
+            _characterCreatorHairSelectorUiView.HairVisualsData = _characterData.Hair;
+            _characterCreatorHairSelectorUiView.CharacterCreatorHairConfiguration = _configuration.Hair;
             
-            _characterCreatorFaceUiView.FaceVisualsData = _characterData.Face;
-            _characterCreatorFaceUiView.CharacterCreatorFaceConfiguration = _configuration.Face;
+            _characterCreatorFaceSelectorUiView.FaceVisualsData = _characterData.Face;
+            _characterCreatorFaceSelectorUiView.CharacterCreatorFaceConfiguration = _configuration.Face;
         }
     }
 }

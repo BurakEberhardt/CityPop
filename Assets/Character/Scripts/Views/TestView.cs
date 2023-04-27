@@ -1,4 +1,5 @@
-﻿using CityPop.Core;
+﻿using CityPop.Character;
+using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 
@@ -19,10 +20,12 @@ namespace CityPop.Character
         {
         }
 
+        [UpdateOnInitialize]
         void TestData.ITestListener.OnTest(int test)
         {
         }
 
+        [UpdateOnInitialize]
         void TestData.IColorListener.OnColor(Color32 color)
         {
         }
