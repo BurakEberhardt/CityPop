@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CodeGeneration.Constants;
@@ -57,7 +58,7 @@ namespace CodeGeneration
                     }
 
                     foreach (var i in symbol.AllInterfaces)
-                        if (dataInfos.TryGetValue(i.ContainingType, out var dataInfo))
+                        if (i.ContainingType != null && dataInfos.TryGetValue(i.ContainingType, out var dataInfo))
                             dataInfo.Interfaces.Add(i);
 
                     foreach (var member in symbol.GetMembers().OfType<IMethodSymbol>())

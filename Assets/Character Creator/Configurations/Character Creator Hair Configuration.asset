@@ -13,4 +13,18 @@ MonoBehaviour:
   m_Name: Character Creator Hair Configuration
   m_EditorClassIdentifier: 
   <Types>k__BackingField: 000102
-  <Colors>k__BackingField: []
+  <Colors>k__BackingField:
+  - serializedVersion: 2
+    rgba: 4294967295
+  - serializedVersion: 2
+    rgba: 4288410036
+  - serializedVersion: 2
+    rgba: 4293049998
+  - serializedVersion: 2
+    rgba: 4293704404
+  - serializedVersion: 2
+    rgba: 4290683135
+  - serializedVersion: 2
+    rgba: 4288729855
+  - serializedVersion: 2
+    rgba: 4288741347

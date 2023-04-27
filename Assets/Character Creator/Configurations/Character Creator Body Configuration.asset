@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Character Creator Body Configuration
   m_EditorClassIdentifier: 
   <Types>k__BackingField: 000102
-  <Colors>k__BackingField: []
+  <Colors>k__BackingField:
+  - serializedVersion: 2
+    rgba: 4294967295

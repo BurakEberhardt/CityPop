@@ -3,6 +3,8 @@ using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
+using Ui.ColorPicker.Predefined.Data;
+using Ui.ColorPicker.Predefined.Views;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,13 +13,16 @@ namespace CityPop.CharacterCreator.Views
     [DataBinding(typeof(FaceVisualsData))]
     [DataBinding(typeof(CharacterCreatorFaceConfiguration))]
     [DataBinding(typeof(CharacterCreatorPartSelectorData))]
+    [DataBinding(typeof(PredefinedColorPickerData))]
     public partial class CharacterCreatorFaceSelectorUiView : View
         , FaceVisualsData.ITypeListener
         , FaceVisualsData.IColorListener
         , CharacterCreatorFaceConfiguration.IAddedListener
         , CharacterCreatorPartSelectorData.IIndexListener
+        , PredefinedColorPickerData.IIndexListener
     {
         [SerializeField] CharacterCreatorPartSelectorUiView _partSelectorUi;
+        [SerializeField] PredefinedColorPickerUiView _colorPicker;
         [SerializeField] Image _iconImage;
 
         void CharacterCreatorFaceConfiguration.IAddedListener.OnAdded(CharacterCreatorFaceConfiguration characterCreatorFaceConfiguration)
@@ -27,12 +32,24 @@ namespace CityPop.CharacterCreator.Views
                 Index = 0,
                 Count = characterCreatorFaceConfiguration.Types.Length
             };
+
+            PredefinedColorPickerData = _colorPicker.PredefinedColorPickerData = new PredefinedColorPickerData()
+            {
+                Index = 0,
+                Colors = characterCreatorFaceConfiguration.Colors
+            };
         }
 
         [UpdateOnInitialize]
         void CharacterCreatorPartSelectorData.IIndexListener.OnIndex(int index)
         {
             _faceVisualsData.Type = _characterCreatorFaceConfiguration.Types[CharacterCreatorPartSelectorData.Index];
+        }
+
+        [UpdateOnInitialize]
+        void PredefinedColorPickerData.IIndexListener.OnIndex(int index)
+        {
+            _faceVisualsData.Color = _characterCreatorFaceConfiguration.Colors[index];
         }
 
         async void FaceVisualsData.ITypeListener.OnType(FaceType type)

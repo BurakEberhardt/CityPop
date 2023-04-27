@@ -2,7 +2,6 @@
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CityPop.CharacterCreator.Views
 {
@@ -10,15 +9,18 @@ namespace CityPop.CharacterCreator.Views
     {
         [SerializeField] CharacterCreatorConfiguration _configuration;
         [SerializeField] CharacterVisualsView _characterView;
-        [FormerlySerializedAs("_characterCreatorBodyUiView")] [SerializeField] CharacterCreatorBodySelectorUiView _characterCreatorBodySelectorUiView;
-        [FormerlySerializedAs("_characterCreatorHairUiView")] [SerializeField] CharacterCreatorHairSelectorUiView _characterCreatorHairSelectorUiView;
-        [FormerlySerializedAs("_characterCreatorFaceUiView")] [SerializeField] CharacterCreatorFaceSelectorUiView _characterCreatorFaceSelectorUiView;
+        [SerializeField] CharacterVisualsView[] _characterViews;
+        [SerializeField] CharacterCreatorBodySelectorUiView _characterCreatorBodySelectorUiView;
+        [SerializeField] CharacterCreatorHairSelectorUiView _characterCreatorHairSelectorUiView;
+        [SerializeField] CharacterCreatorFaceSelectorUiView _characterCreatorFaceSelectorUiView;
         CharacterVisualsData _characterData;
 
         void Awake()
         {
             _characterData = new CharacterVisualsData();
             _characterView.CharacterVisualsData = _characterData;
+            foreach (var characterVisualsView in _characterViews)
+                characterVisualsView.CharacterVisualsData = _characterData;
             
             _characterCreatorBodySelectorUiView.BodyVisualsData = _characterData.Body;
             _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = _configuration.Body;
