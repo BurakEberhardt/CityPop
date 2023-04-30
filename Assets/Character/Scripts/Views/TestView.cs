@@ -1,5 +1,4 @@
-﻿using CityPop.Character;
-using CityPop.Core;
+﻿using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 

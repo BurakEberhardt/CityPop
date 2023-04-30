@@ -10,5 +10,6 @@ namespace CityPop.Character
     {
         [SerializeField, Data] int _test;
         [SerializeField, Data] Color32 _color;
+        [SerializeField, Data] string _name;
     }
 }
