@@ -63,7 +63,7 @@ namespace CharacterToTexture.Views
 
             var textureSize = _spriteSize;
 
-            for (var i = 1; i < capacity; ++i)
+            while (_rows * _columns < capacity)
             {
                 if (textureSize.x > textureSize.y)
                 {
@@ -75,6 +75,12 @@ namespace CharacterToTexture.Views
                     ++_columns;
                     textureSize.x += _spriteSize.x;
                 }
+            }
+
+            if (_renderTexture)
+            {
+                _renderTexture.Release();
+                Destroy(_renderTexture);
             }
 
             _renderTexture = new RenderTexture(textureSize.x, textureSize.y, 1);
