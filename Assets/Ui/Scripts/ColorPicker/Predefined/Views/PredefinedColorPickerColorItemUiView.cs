@@ -4,6 +4,7 @@ using Ui.ColorPicker.Predefined.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zen.Core.View;
 
 namespace Ui.ColorPicker.Predefined.Views
 {

@@ -1,6 +1,7 @@
 ﻿using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
+using Zen.Core.View;
 
 namespace CityPop.Character
 {

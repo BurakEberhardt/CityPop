@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CityPop.Core.Shared.Attributes;
 
-namespace CharacterToTexture.Data
+namespace CityPop.CharacterToTexture.Data
 {
     public partial class CharacterToSpriteData
     {

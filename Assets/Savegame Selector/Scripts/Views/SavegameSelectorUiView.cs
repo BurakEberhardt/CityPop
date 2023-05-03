@@ -1,22 +1,39 @@
 ﻿using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 using CityPop.Character;
-using CityPop.Core;
+using CityPop.Core.ListSynchronizer;
 using CityPop.Core.Shared.Attributes;
 using Player.Data;
 using SavegameSelector.Data;
 using UnityEngine;
+using Zen.Core.PlayerLoop;
+using Zen.Core.View;
+using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace SavegameSelector.Views
 {
     [DataBinding(typeof(SavegameSelectorData))]
     public partial class SavegameSelectorUiView : View
         , SavegameSelectorData.IPlayersListener
+        , IUpdate
     {
         [SerializeField] SavegameSlotUiView _savegameSlotView;
         [SerializeField] Transform _savegameSlotParent;
-        readonly List<SavegameSlotUiView> _savegameSlotViews = new();
         
+        readonly List<SavegameSlotUiView> _savegameSlotViews = new();
+        ListSynchronizer<PlayerData, SavegameSlotUiView, PlayerData> _savegameUiSlotViewsSynchronizer;
+
+        void Awake()
+        {
+            PlayerLoop.AddListener(this);
+        }
+
+        void OnDestroy()
+        {
+            PlayerLoop.RemoveListener(this);
+        }
+
         void Start()
         {
             var players = new List<PlayerData>()
@@ -77,45 +94,82 @@ namespace SavegameSelector.Views
 
             for (var i = 0; i < 6; ++i)
             {
-                players.Add(new PlayerData()
-                {
-                    Character = new CharacterData()
-                    {
-                        Name = $"Character {players.Count + 1}",
-                        Visuals = new CharacterVisualsData()
-                        {
-                            Body = new BodyVisualsData() {Type = (BodyType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)},
-                            Hair = new HairVisualsData() {Type = (HairType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)},
-                            Face = new FaceVisualsData() {Type = (FaceType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)}
-                        }
-                    }
-                });
+                players.Add(CreateRandomPlayerData($"Character {players.Count + 1}"));
             }
-            
+
             SavegameSelectorData = new SavegameSelectorData()
             {
-                Players = players.ToArray()
+                Players = players
+            };
+        }
+
+        static PlayerData CreateRandomPlayerData(string name)
+        {
+            return new PlayerData()
+            {
+                Character = new CharacterData()
+                {
+                    Name = name,
+                    Visuals = new CharacterVisualsData()
+                    {
+                        Body = new BodyVisualsData() {Type = (BodyType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)},
+                        Hair = new HairVisualsData() {Type = (HairType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)},
+                        Face = new FaceVisualsData() {Type = (FaceType) Random.Range(0, 3), Color = Random.ColorHSV(0f, 1f, 0f, 0.5f, 0.9f, 1f)}
+                    }
+                }
             };
         }
 
         [UpdateOnInitialize]
-        void SavegameSelectorData.IPlayersListener.OnPlayers(PlayerData[] players)
+        void SavegameSelectorData.IPlayersListener.OnPlayers(List<PlayerData> players)
         {
-            CleanPreviousSavegameSlots();
+            Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count})");
 
-            foreach (var playerData in players)
-            {
-                var savegameSlotView = Instantiate(_savegameSlotView, _savegameSlotParent);
-                savegameSlotView.PlayerData = playerData;
-                
-                _savegameSlotViews.Add(savegameSlotView);
-            }
+            var stopwatch = Stopwatch.StartNew();
+
+            _savegameUiSlotViewsSynchronizer ??= new ListSynchronizer<PlayerData, SavegameSlotUiView, PlayerData>(
+                view => view.PlayerData,
+                data => data,
+                CreateSlotUi,
+                RemoveSlotUi,
+                UpdateSlotUi);
+            _savegameUiSlotViewsSynchronizer.Synchronize(_savegameSlotViews, players);
+
+            stopwatch.Stop();
+            Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count}, {stopwatch.ElapsedTicks})");
         }
 
-        void CleanPreviousSavegameSlots()
+        SavegameSlotUiView CreateSlotUi(PlayerData data, int index)
         {
-            foreach (var savegameSlotView in _savegameSlotViews)
-                Destroy(savegameSlotView.gameObject);
+            var view = _savegameSlotView.GetViewFromObjectPool(_savegameSlotParent);
+            view.PlayerData = data;
+            UpdateSlotUi(view, data, -1, index);
+            return view;
+        }
+
+        void RemoveSlotUi(SavegameSlotUiView view, int index)
+        {
+            view.PlayerData = null;
+            view.PushViewToObjectPool();
+        }
+
+        void UpdateSlotUi(SavegameSlotUiView view, PlayerData data, int fromIndex, int toIndex)
+        {
+            view.transform.SetSiblingIndex(toIndex);
+        }
+
+        public void OnUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.KeypadPlus))
+            {
+                SavegameSelectorData.Players.Insert(Random.Range(0, SavegameSelectorData.Players.Count), CreateRandomPlayerData($"Dynamic {SavegameSelectorData.Players.Count}"));
+                SavegameSelectorData.Players = SavegameSelectorData.Players;
+            }
+            else if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            {
+                SavegameSelectorData.Players.RemoveAt(Random.Range(0, SavegameSelectorData.Players.Count));
+                SavegameSelectorData.Players = SavegameSelectorData.Players;
+            }
         }
     }
 }

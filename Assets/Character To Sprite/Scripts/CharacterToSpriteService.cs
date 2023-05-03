@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using CharacterToTexture.Data;
-using CharacterToTexture.Views;
+using CityPop.CharacterToTexture.Data;
+using CityPop.CharacterToTexture.Views;
 using Core.Extensions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace CharacterToTexture.Scripts
+namespace CityPop.CharacterToTexture
 {
     public sealed class CharacterToSpriteService
     {

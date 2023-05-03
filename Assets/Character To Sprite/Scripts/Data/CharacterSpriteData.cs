@@ -2,7 +2,7 @@
 using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 
-namespace CharacterToTexture.Data
+namespace CityPop.CharacterToTexture.Data
 {
     [Data]
     public partial class CharacterSpriteData

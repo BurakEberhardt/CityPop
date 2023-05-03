@@ -1,15 +1,16 @@
-﻿using CharacterToTexture.Data;
-using CharacterToTexture.Scripts;
+﻿using CityPop.CharacterToTexture;
 using CityPop.Character;
+using CityPop.CharacterToTexture.Data;
 using CityPop.Core;
 using CityPop.Core.Shared.Attributes;
 using Core;
 using UnityEngine;
 using UnityEngine.UI;
+using Zen.Core.View;
 
-namespace CharacterToTexture.Views
+namespace CityPop.CharacterToTexture.Views
 {
-    [DataBinding(typeof(CharacterSpriteData))]
+    [DataBinding(typeof(CharacterSpriteData), Accessibility.Private)]
     [DataBinding(typeof(CharacterData))]
     public partial class CharacterSpriteView : View
         , CharacterSpriteData.ISpriteListener
@@ -30,11 +31,11 @@ namespace CharacterToTexture.Views
 
         void CharacterData.IRemovedListener.OnRemoved()
         {
-            CharacterSpriteData = null;
             var characterToSpriteData = ServiceLocator.GetOrCreate<CharacterToSpriteService>().Data;
             characterToSpriteData.CharacterSprites.Remove(CharacterSpriteData);
             // TODO: Introduce remove listeners for IList data types so I don't have to trigger the event like this
             characterToSpriteData.CharacterSprites = characterToSpriteData.CharacterSprites;
+            CharacterSpriteData = null;
         }
 
         void CharacterSpriteData.IRemovedListener.OnRemoved()

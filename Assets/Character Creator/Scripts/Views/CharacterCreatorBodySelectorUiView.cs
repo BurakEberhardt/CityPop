@@ -7,6 +7,7 @@ using Ui.ColorPicker.Predefined.Data;
 using Ui.ColorPicker.Predefined.Views;
 using UnityEngine;
 using UnityEngine.UI;
+using Zen.Core.View;
 
 namespace CityPop.CharacterCreator.Views
 {

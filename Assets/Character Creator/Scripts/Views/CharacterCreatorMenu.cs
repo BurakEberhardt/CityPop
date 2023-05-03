@@ -2,6 +2,7 @@
 using CityPop.CharacterCreator.Configurations;
 using CityPop.Core;
 using UnityEngine;
+using Zen.Core.View;
 
 namespace CityPop.CharacterCreator.Views
 {

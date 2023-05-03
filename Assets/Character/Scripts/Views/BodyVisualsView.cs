@@ -2,6 +2,7 @@
 using CityPop.Core.Shared.Attributes;
 using Core.Extensions;
 using UnityEngine;
+using Zen.Core.View;
 
 namespace CityPop.Character
 {

@@ -1,4 +1,5 @@
-﻿using CityPop.Core.Shared.Attributes;
+﻿using System.Collections.Generic;
+using CityPop.Core.Shared.Attributes;
 using Player.Data;
 
 namespace SavegameSelector.Data
@@ -6,6 +7,6 @@ namespace SavegameSelector.Data
     [Data]
     public partial class SavegameSelectorData
     {
-        [Data] PlayerData[] _players;
+        [Data] List<PlayerData> _players;
     }
 }
