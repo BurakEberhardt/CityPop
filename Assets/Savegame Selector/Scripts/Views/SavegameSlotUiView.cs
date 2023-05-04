@@ -4,7 +4,7 @@ using Player.Data;
 using TMPro;
 using UnityEngine;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace SavegameSelector.Views
 {

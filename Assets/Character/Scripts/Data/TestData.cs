@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Zen.CodeGeneration;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CityPop.Character
 {

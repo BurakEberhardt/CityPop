@@ -6,7 +6,7 @@ using Ui.ColorPicker.Predefined.Views;
 using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CityPop.CharacterCreator.Views
 {

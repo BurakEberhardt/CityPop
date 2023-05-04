@@ -1,7 +1,7 @@
 ﻿using Zen.CodeGeneration;
 using Zen.Core.PlayerLoop;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CityPop.Character
 {

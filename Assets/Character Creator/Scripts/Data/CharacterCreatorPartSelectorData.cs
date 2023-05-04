@@ -1,4 +1,4 @@
-﻿using Zen.Shared.Attributes;
+﻿using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CharacterCreator.Data
 {

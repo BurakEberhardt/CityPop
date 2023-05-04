@@ -1,5 +1,5 @@
 ﻿using CityPop.Character;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace Player.Data
 {

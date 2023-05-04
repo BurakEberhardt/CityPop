@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Player.Data;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace SavegameSelector.Data
 {

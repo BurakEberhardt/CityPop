@@ -1,7 +1,7 @@
 ﻿using Core.Extensions;
 using UnityEngine;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CityPop.Character
 {

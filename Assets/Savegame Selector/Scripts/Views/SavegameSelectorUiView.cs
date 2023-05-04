@@ -7,7 +7,7 @@ using SavegameSelector.Data;
 using UnityEngine;
 using Zen.Core.PlayerLoop;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 

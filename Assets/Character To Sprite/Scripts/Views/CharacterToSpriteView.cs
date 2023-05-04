@@ -5,7 +5,7 @@ using CityPop.CharacterToTexture.Data;
 using CityPop.Core.ListSynchronizer;
 using UnityEngine;
 using Zen.Core.View;
-using Zen.Shared.Attributes;
+using Zen.CodeGeneration.DataBinding.Attributes;
 using Debug = UnityEngine.Debug;
 
 namespace CityPop.CharacterToTexture.Views
