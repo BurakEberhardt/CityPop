@@ -1,4 +1,4 @@
-﻿using CityPop.Core.Shared.Attributes;
+﻿using Zen.Shared.Attributes;
 
 namespace CharacterCreator.Data
 {

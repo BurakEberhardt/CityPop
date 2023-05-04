@@ -1,13 +1,12 @@
 ﻿using CharacterCreator.Data;
 using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
-using CityPop.Core;
-using CityPop.Core.Shared.Attributes;
 using Ui.ColorPicker.Predefined.Data;
 using Ui.ColorPicker.Predefined.Views;
 using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace CityPop.CharacterCreator.Views
 {

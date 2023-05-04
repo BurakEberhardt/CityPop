@@ -1,11 +1,7 @@
-﻿using System;
-using CityPop.Core;
-using CityPop.Core.Shared.Attributes;
-using JetBrains.Annotations;
-using UnityEngine;
-using Zen.CodeGeneration;
+﻿using Zen.CodeGeneration;
 using Zen.Core.PlayerLoop;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace CityPop.Character
 {

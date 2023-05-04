@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using CityPop.Core.Shared.Attributes;
 using Player.Data;
+using Zen.Shared.Attributes;
 
 namespace SavegameSelector.Data
 {

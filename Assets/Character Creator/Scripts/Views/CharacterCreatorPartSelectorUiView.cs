@@ -1,10 +1,9 @@
 ﻿using CharacterCreator.Data;
-using CityPop.Core;
-using CityPop.Core.Shared.Attributes;
 using Core.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace CityPop.CharacterCreator.Views
 {

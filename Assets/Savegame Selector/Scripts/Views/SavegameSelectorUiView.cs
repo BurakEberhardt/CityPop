@@ -2,12 +2,12 @@
 using System.Diagnostics;
 using CityPop.Character;
 using CityPop.Core.ListSynchronizer;
-using CityPop.Core.Shared.Attributes;
 using Player.Data;
 using SavegameSelector.Data;
 using UnityEngine;
 using Zen.Core.PlayerLoop;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 

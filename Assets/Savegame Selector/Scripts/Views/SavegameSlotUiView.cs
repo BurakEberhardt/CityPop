@@ -1,10 +1,10 @@
 ﻿using CityPop.CharacterToTexture.Data;
 using CityPop.CharacterToTexture.Views;
-using CityPop.Core.Shared.Attributes;
 using Player.Data;
 using TMPro;
 using UnityEngine;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace SavegameSelector.Views
 {

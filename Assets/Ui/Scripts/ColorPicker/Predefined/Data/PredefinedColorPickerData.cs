@@ -1,5 +1,5 @@
-﻿using CityPop.Core.Shared.Attributes;
-using UnityEngine;
+﻿using UnityEngine;
+using Zen.Shared.Attributes;
 
 namespace Ui.ColorPicker.Predefined.Data
 {

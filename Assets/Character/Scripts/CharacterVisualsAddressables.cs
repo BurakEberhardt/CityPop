@@ -1,5 +1,4 @@
 ﻿using CityPop.Character.Configurations;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using CityPop.Core.Shared.Attributes;
-using UnityEngine;
+﻿using UnityEngine;
 using Zen.CodeGeneration;
+using Zen.Shared.Attributes;
 
 namespace CityPop.Character
 {

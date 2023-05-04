@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using CityPop.Character;
 using CityPop.CharacterToTexture.Data;
-using CityPop.Core;
 using CityPop.Core.ListSynchronizer;
-using CityPop.Core.Shared.Attributes;
 using UnityEngine;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 using Debug = UnityEngine.Debug;
 
 namespace CityPop.CharacterToTexture.Views

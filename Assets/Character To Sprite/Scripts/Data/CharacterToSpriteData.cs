@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CityPop.Core.Shared.Attributes;
+using Zen.Shared.Attributes;
 
 namespace CityPop.CharacterToTexture.Data
 {

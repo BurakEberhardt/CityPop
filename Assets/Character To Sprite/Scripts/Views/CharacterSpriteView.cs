@@ -1,12 +1,10 @@
-﻿using CityPop.CharacterToTexture;
-using CityPop.Character;
+﻿using CityPop.Character;
 using CityPop.CharacterToTexture.Data;
-using CityPop.Core;
-using CityPop.Core.Shared.Attributes;
 using Core;
 using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace CityPop.CharacterToTexture.Views
 {

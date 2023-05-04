@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using CityPop.Core;
-using CityPop.Core.Shared.Attributes;
 using Ui.ColorPicker.Predefined.Data;
 using UnityEngine;
 using Zen.Core.View;
+using Zen.Shared.Attributes;
 
 namespace Ui.ColorPicker.Predefined.Views
 {
