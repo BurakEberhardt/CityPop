@@ -27,11 +27,5 @@ namespace CityPop.Character
             _hairVisuals.HairVisualsData = null;
             _faceVisuals.FaceVisualsData = null;
         }
-
-        [OnDestroy]
-        void OnCustomDestroy()
-        {
-            Debug.Log($"OnDestroy({name})");
-        }
     }
 }

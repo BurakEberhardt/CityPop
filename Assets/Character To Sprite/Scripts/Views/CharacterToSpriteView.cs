@@ -64,8 +64,6 @@ namespace CityPop.CharacterToTexture.Views
 
         static void DeleteView(CharacterVisualsView view, int index)
         {
-            Debug.Log($"Delete".Red());
-
             view.CharacterVisualsData = null;
             view.PushViewToObjectPool();
         }
