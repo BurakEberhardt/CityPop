@@ -1,5 +1,5 @@
 ﻿using CharacterCreator.Data;
-using Core.Extensions;
+using Zen.Core.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;

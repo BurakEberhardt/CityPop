@@ -6,6 +6,7 @@ using CityPop.Core.ListSynchronizer;
 using UnityEngine;
 using Zen.Core.View;
 using Zen.CodeGeneration.DataBinding.Attributes;
+using Zen.Core.Extensions;
 using Debug = UnityEngine.Debug;
 
 namespace CityPop.CharacterToTexture.Views
@@ -29,7 +30,7 @@ namespace CityPop.CharacterToTexture.Views
 
         public void OnCharacterSprites(List<CharacterSpriteData> characterSprites)
         {
-            Debug.Log($"{nameof(OnCharacterSprites)}({characterSprites.Count})");
+            // Debug.Log($"{nameof(OnCharacterSprites)}({characterSprites.Count})");
 
             var stopwatch = Stopwatch.StartNew();
 
@@ -49,7 +50,7 @@ namespace CityPop.CharacterToTexture.Views
 
             stopwatch.Stop();
 
-            Debug.Log($"Elapsed: {stopwatch.ElapsedTicks}");
+            // Debug.Log($"Elapsed: {stopwatch.ElapsedTicks}");
         }
 
         CharacterVisualsView CreateView(CharacterSpriteData data, int index)
@@ -63,6 +64,8 @@ namespace CityPop.CharacterToTexture.Views
 
         static void DeleteView(CharacterVisualsView view, int index)
         {
+            Debug.Log($"Delete".Red());
+
             view.CharacterVisualsData = null;
             view.PushViewToObjectPool();
         }
@@ -83,7 +86,7 @@ namespace CityPop.CharacterToTexture.Views
 
         void CreateRTWithCapacity(int capacity)
         {
-            Debug.Log($"{nameof(CreateRTWithCapacity)}({capacity})");
+            // Debug.Log($"{nameof(CreateRTWithCapacity)}({capacity})");
             _rows = _columns = 1;
 
             var textureSize = _spriteSize;

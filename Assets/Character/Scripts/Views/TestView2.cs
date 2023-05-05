@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using Zen.CodeGeneration.DataBinding.Attributes;
 using Zen.CodeGeneration.UnityMethods.Attributes;
 using Zen.Core.View;
 
 namespace CityPop.Character
 {
+    [DataBinding(typeof(TestData))]
     public partial class TestView2 : View
     {
         [Awake]

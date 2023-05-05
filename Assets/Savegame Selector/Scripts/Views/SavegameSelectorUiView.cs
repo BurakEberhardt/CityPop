@@ -5,10 +5,9 @@ using CityPop.Core.ListSynchronizer;
 using Player.Data;
 using SavegameSelector.Data;
 using UnityEngine;
-using Zen.Core.PlayerLoop;
 using Zen.Core.View;
 using Zen.CodeGeneration.DataBinding.Attributes;
-using Debug = UnityEngine.Debug;
+using Zen.CodeGeneration.UnityMethods.Attributes;
 using Random = UnityEngine.Random;
 
 namespace SavegameSelector.Views
@@ -16,23 +15,12 @@ namespace SavegameSelector.Views
     [DataBinding(typeof(SavegameSelectorData))]
     public partial class SavegameSelectorUiView : View
         , SavegameSelectorData.IPlayersListener
-        , IUpdate
     {
         [SerializeField] SavegameSlotUiView _savegameSlotView;
         [SerializeField] Transform _savegameSlotParent;
         
         readonly List<SavegameSlotUiView> _savegameSlotViews = new();
         ListSynchronizer<PlayerData, SavegameSlotUiView, PlayerData> _savegameUiSlotViewsSynchronizer;
-
-        void Awake()
-        {
-            PlayerLoop.AddListener(this);
-        }
-
-        void OnDestroy()
-        {
-            PlayerLoop.RemoveListener(this);
-        }
 
         void Start()
         {
@@ -123,7 +111,7 @@ namespace SavegameSelector.Views
         [UpdateOnInitialize]
         void SavegameSelectorData.IPlayersListener.OnPlayers(List<PlayerData> players)
         {
-            Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count})");
+            // Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count})");
 
             var stopwatch = Stopwatch.StartNew();
 
@@ -136,7 +124,7 @@ namespace SavegameSelector.Views
             _savegameUiSlotViewsSynchronizer.Synchronize(_savegameSlotViews, players);
 
             stopwatch.Stop();
-            Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count}, {stopwatch.ElapsedTicks})");
+            // Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count}, {stopwatch.ElapsedTicks})");
         }
 
         SavegameSlotUiView CreateSlotUi(PlayerData data, int index)
@@ -158,7 +146,8 @@ namespace SavegameSelector.Views
             view.transform.SetSiblingIndex(toIndex);
         }
 
-        public void OnUpdate()
+        [Update]
+        public void AddOrRemoveMoreSlots()
         {
             if (Input.GetKeyDown(KeyCode.KeypadPlus))
             {

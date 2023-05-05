@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CityPop.CharacterToTexture.Data;
 using CityPop.CharacterToTexture.Views;
-using Core.Extensions;
+using Zen.Core.Extensions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
