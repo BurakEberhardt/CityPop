@@ -13,7 +13,7 @@ namespace CityPop.CharacterToTexture.Data
         public struct RTSprite
         {
             public RenderTexture Texture;
-            public Rect Rect;
+            public RectInt Rect;
         }
     }
 }

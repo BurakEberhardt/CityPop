@@ -1,35 +1,74 @@
-﻿using CityPop.Character;
+﻿using System;
+using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
+using CityPop.CharacterToTexture.Views;
+using TMPro;
 using UnityEngine;
+using Zen.CodeGeneration.DataBinding.Attributes;
 using Zen.Core.View;
+using Zen.Ui;
 
 namespace CityPop.CharacterCreator.Views
 {
-    public class CharacterCreatorMenu : View
+    [DataBinding(typeof(CharacterData))]
+    public partial class CharacterCreatorMenu : View
+        , CharacterData.IAddedListener
+        , CharacterData.IRemovedListener
     {
         [SerializeField] CharacterCreatorConfiguration _configuration;
-        [SerializeField] CharacterVisualsView _characterView;
-        [SerializeField] CharacterVisualsView[] _characterViews;
+        [SerializeField] CharacterSpriteView _characterView;
         [SerializeField] CharacterCreatorBodySelectorUiView _characterCreatorBodySelectorUiView;
         [SerializeField] CharacterCreatorHairSelectorUiView _characterCreatorHairSelectorUiView;
         [SerializeField] CharacterCreatorFaceSelectorUiView _characterCreatorFaceSelectorUiView;
-        CharacterVisualsData _characterData;
+        [SerializeField] TMP_InputField _nameLabel;
+        [SerializeField] Button _createButton;
 
-        void Awake()
+        void CharacterData.IAddedListener.OnAdded(CharacterData characterData)
         {
-            _characterData = new CharacterVisualsData();
-            _characterView.CharacterVisualsData = _characterData;
-            foreach (var characterVisualsView in _characterViews)
-                characterVisualsView.CharacterVisualsData = _characterData;
+            _characterView.CharacterData = _characterData;
             
-            _characterCreatorBodySelectorUiView.BodyVisualsData = _characterData.Body;
+            _characterCreatorBodySelectorUiView.BodyVisualsData = _characterData.Visuals.Body;
             _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = _configuration.Body;
-            
-            _characterCreatorHairSelectorUiView.HairVisualsData = _characterData.Hair;
+             
+            _characterCreatorHairSelectorUiView.HairVisualsData = _characterData.Visuals.Hair;
             _characterCreatorHairSelectorUiView.CharacterCreatorHairConfiguration = _configuration.Hair;
             
-            _characterCreatorFaceSelectorUiView.FaceVisualsData = _characterData.Face;
+            _characterCreatorFaceSelectorUiView.FaceVisualsData = _characterData.Visuals.Face;
             _characterCreatorFaceSelectorUiView.CharacterCreatorFaceConfiguration = _configuration.Face;
+
+            _nameLabel.onValueChanged.AddListener(OnNameChanged);
+            _nameLabel.text = characterData.Name;
+            _createButton.onClick.AddListener(OnCreate);
+        }
+
+        void CharacterData.IRemovedListener.OnRemoved()
+        {
+            _characterView.CharacterData = null;
+            
+            _characterCreatorBodySelectorUiView.BodyVisualsData = null;
+            _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = null;
+            
+            _characterCreatorHairSelectorUiView.HairVisualsData = null;
+            _characterCreatorHairSelectorUiView.CharacterCreatorHairConfiguration = null;
+            
+            _characterCreatorFaceSelectorUiView.FaceVisualsData = null;
+            _characterCreatorFaceSelectorUiView.CharacterCreatorFaceConfiguration = null;
+            
+            _nameLabel.onValueChanged.RemoveListener(OnNameChanged);
+            _nameLabel.text = string.Empty;
+            _createButton.onClick.RemoveListener(OnCreate);
+        }
+
+        public event Action<CharacterData> EventCreate;
+
+        void OnNameChanged(string name)
+        {
+            CharacterData.Name = name;
+        }
+
+        void OnCreate()
+        {
+            EventCreate?.Invoke(CharacterData);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CharacterCreator.Data;
+﻿using System;
+using CharacterCreator.Data;
 using CityPop.Character;
 using CityPop.CharacterCreator.Configurations;
 using Ui.ColorPicker.Predefined.Data;
@@ -29,13 +30,13 @@ namespace CityPop.CharacterCreator.Views
         {
             CharacterCreatorPartSelectorData = _partSelectorUi.CharacterCreatorPartSelectorData = new CharacterCreatorPartSelectorData()
             {
-                Index = 0,
+                Index = Math.Max(Array.IndexOf(characterCreatorHairConfiguration.Types, HairVisualsData.Type), 0),
                 Count = characterCreatorHairConfiguration.Types.Length
             };
 
             PredefinedColorPickerData = _colorPicker.PredefinedColorPickerData = new PredefinedColorPickerData()
             {
-                Index = 0,
+                Index = Math.Max(Array.IndexOf(characterCreatorHairConfiguration.Colors, HairVisualsData.Color), 0),
                 Colors = characterCreatorHairConfiguration.Colors
             };
         }

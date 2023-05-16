@@ -13,10 +13,8 @@ namespace Zen.Ui.Selectable
 
         public override void DoStateTransition(SelectionState state, bool instant)
         {
-#if UNITY_EDITOR
             if (!_graphic)
                 return;
-#endif
 
             if (_config == null)
                 return;

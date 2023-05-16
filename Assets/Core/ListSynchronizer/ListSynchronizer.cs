@@ -75,4 +75,12 @@ namespace CityPop.Core.ListSynchronizer
             listToSynchronize.AddRange(_buffer.Take(syncWith.Count));
         }
     }
+
+    public abstract class ListSynchronizer<T> : ListSynchronizer<T, T, T>
+    {
+        protected ListSynchronizer(Func<T, T> type1Converter, Func<T, T> type2Converter, Func<T, int, T> create, Action<T, int> remove, Action<T, T, int, int> update) 
+            : base(type1Converter, type2Converter, create, remove, update)
+        {
+        }
+    }
 }

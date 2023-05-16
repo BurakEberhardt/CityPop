@@ -25,7 +25,7 @@ namespace Zen.Ui.Selectable
 
             if (audioClip != null)
             {
-                ServiceLocator.GetOrCreate<AudioService>().PlayOneShot(audioClip);
+                ServiceLocator.Get<AudioService>().PlayOneShot(audioClip);
             }
         }
     }

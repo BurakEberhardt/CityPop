@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zen.Core.View;
 using Zen.CodeGeneration.DataBinding.Attributes;
+using Zen.CodeGeneration.UnityMethods.Attributes;
 
 namespace CityPop.CharacterToTexture.Views
 {
@@ -17,19 +18,37 @@ namespace CityPop.CharacterToTexture.Views
         , CharacterData.IRemovedListener
     {
         [SerializeField] RawImage _image;
+        Texture2D _texture;
+
+        [Awake]
+        void CreateTexture()
+        {
+            _texture = new Texture2D(256, 256)
+            {
+                filterMode = FilterMode.Bilinear
+            };
+            
+            _image.texture = _texture;
+        }
+
+        [OnDestroy]
+        void DestroyTexture()
+        {
+            Destroy(_texture);
+        }
 
         void CharacterData.IAddedListener.OnAdded(CharacterData characterData)
         {
-            CharacterSpriteData = new CharacterSpriteData() { Character = characterData };
-            var characterToSpriteData = ServiceLocator.GetOrCreate<CharacterToSpriteService>().Data;
+            CharacterSpriteData = new CharacterSpriteData() {Character = characterData};
+            var characterToSpriteData = ServiceLocator.Get<CharacterToSpriteService>().Data;
             characterToSpriteData.CharacterSprites.Add(CharacterSpriteData);
             // TODO: Introduce add for IList data types so I don't have to trigger the event like this
-            characterToSpriteData.CharacterSprites = characterToSpriteData.CharacterSprites; 
+            characterToSpriteData.CharacterSprites = characterToSpriteData.CharacterSprites;
         }
 
         void CharacterData.IRemovedListener.OnRemoved()
         {
-            var characterToSpriteData = ServiceLocator.GetOrCreate<CharacterToSpriteService>().Data;
+            var characterToSpriteData = ServiceLocator.Get<CharacterToSpriteService>().Data;
             characterToSpriteData.CharacterSprites.Remove(CharacterSpriteData);
             // TODO: Introduce remove listeners for IList data types so I don't have to trigger the event like this
             characterToSpriteData.CharacterSprites = characterToSpriteData.CharacterSprites;
@@ -38,13 +57,13 @@ namespace CityPop.CharacterToTexture.Views
 
         void CharacterSpriteData.IRemovedListener.OnRemoved()
         {
-            _image.texture = null;
+            _image.texture = Texture2D.whiteTexture;
         }
 
         void CharacterSpriteData.ISpriteListener.OnSprite(CharacterSpriteData.RTSprite sprite)
         {
             _image.texture = sprite.Texture;
-            _image.uvRect = new Rect(sprite.Rect.x / sprite.Texture.width, sprite.Rect.y / sprite.Texture.height, sprite.Rect.width / sprite.Texture.width, sprite.Rect.height / sprite.Texture.height);
+            _image.uvRect = new Rect(sprite.Rect.x / (float)sprite.Texture.width, sprite.Rect.y / (float)sprite.Texture.height, sprite.Rect.width / (float)sprite.Texture.width, sprite.Rect.height / (float)sprite.Texture.height);
         }
     }
 }

@@ -6,13 +6,11 @@ using CityPop.Core.ListSynchronizer;
 using UnityEngine;
 using Zen.Core.View;
 using Zen.CodeGeneration.DataBinding.Attributes;
-using Zen.Core.Extensions;
-using Debug = UnityEngine.Debug;
 
 namespace CityPop.CharacterToTexture.Views
 {
     [DataBinding(typeof(CharacterToSpriteData))]
-    public partial class CharacterToSpriteView : MonoBehaviour
+    public partial class CharacterToSpriteView : View
         , CharacterToSpriteData.ICharacterSpritesListener
     {
         [SerializeField] Camera _camera;
@@ -64,7 +62,6 @@ namespace CityPop.CharacterToTexture.Views
 
         static void DeleteView(CharacterVisualsView view, int index)
         {
-            view.CharacterVisualsData = null;
             view.PushViewToObjectPool();
         }
 
@@ -76,7 +73,7 @@ namespace CityPop.CharacterToTexture.Views
             data.Sprite = new CharacterSpriteData.RTSprite()
             {
                 Texture = _renderTexture,
-                Rect = new Rect(x * _spriteSize.x, y * _spriteSize.y, _spriteSize.x, _spriteSize.y)
+                Rect = new RectInt(x * _spriteSize.x, y * _spriteSize.y, _spriteSize.x, _spriteSize.y)
             };
 
             view.transform.localPosition = new Vector3(x + 0.5f, y + 0.5f);
@@ -110,6 +107,7 @@ namespace CityPop.CharacterToTexture.Views
             }
 
             _renderTexture = new RenderTexture(textureSize.x, textureSize.y, 1);
+            _renderTexture.filterMode = FilterMode.Point;
             _camera.targetTexture = _renderTexture;
             _camera.orthographicSize = _rows * 0.5f;
             _cameraTransform.localPosition = new Vector3(_columns * 0.5f, _rows * 0.5f, -1f);

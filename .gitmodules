@@ -1,6 +1,9 @@
 [submodule "Packages/com.zen.core"]
 	path = Packages/com.zen.core
 	url = https://github.com/BurakEberhardt/Zen.Core
-[submodule "Packages/com.zen.input"]
-	path = Packages/com.zen.input
-	url = https://github.com/BurakEberhardt/Zen.Input
+[submodule "Packages/com.zen.newtonsoft.json"]
+	path = Packages/com.zen.newtonsoft.json
+	url = https://github.com/BurakEberhardt/Zen.Newtonsoft.Json
+[submodule "Packages/com.zen.demigiant.dotween"]
+	path = Packages/com.zen.demigiant.dotween
+	url = https://github.com/BurakEberhardt/Zen.Demigiant.DOTween

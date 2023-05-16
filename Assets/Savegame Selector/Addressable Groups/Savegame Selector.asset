@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Savegame Selector
+  m_EditorClassIdentifier: 
+  m_GroupName: Savegame Selector
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 05447f272892e7445900f1bda8716044
+  m_SerializeEntries:
+  - m_GUID: 2adc4dc57151a1e41b7ef829dc237f6b
+    m_Address: Ui/Savegame Selector
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4ccdcc25a5d66414981dba779994e41c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 150a6fd5712b67d4f874a8be75a46893, type: 2}
+    - {fileID: 11400000, guid: e28ef82cd04bfde4ba62fde78c725394, type: 2}

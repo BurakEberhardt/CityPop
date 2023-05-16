@@ -176,7 +176,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1245667756184183558
 CanvasRenderer:
@@ -234,6 +234,7 @@ MonoBehaviour:
   - {fileID: 5957580420896469794}
   - {fileID: 5739048181836628704}
   - {fileID: 270071100014738923}
+  - {fileID: 174690147663594153}
 --- !u!114 &9117780893689843763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterVisuals: {fileID: 8313883079602285689}
   _name: {fileID: 8158878413047135861}
+  _button: {fileID: 2573880345823312245}
 --- !u!1 &5849279203928208010
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,6 +380,8 @@ GameObject:
   - component: {fileID: 5957580420896469794}
   - component: {fileID: 6950128573328412615}
   - component: {fileID: 5739048181836628704}
+  - component: {fileID: 974083591563857706}
+  - component: {fileID: 174690147663594153}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -427,7 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: ece63660c745a204690c380eb80eac60, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -492,3 +496,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _config: {fileID: 11400000, guid: 36ab508406502294d8ba3bfb2077fb6f, type: 2}
+--- !u!114 &974083591563857706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472713700395087348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0191bd4fc0eb447dba3f3735590dce56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _emissionStrength: 0
+  _emissionColor: {r: 1, g: 1, b: 1, a: 0}
+--- !u!114 &174690147663594153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7472713700395087348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b1594c74c14f829be106f6b0cef97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 2d79db33c15c5cc41bf8d8c088899fc7, type: 2}
