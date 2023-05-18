@@ -3,7 +3,7 @@ using CityPop.Character;
 using Newtonsoft.Json;
 using Zen.CodeGeneration.DataBinding.Attributes;
 
-namespace Player.Data
+namespace CityPop.Player.Data
 {
     [Data]
     public partial class PlayerData

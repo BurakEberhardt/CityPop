@@ -2,12 +2,14 @@
 using System.Linq;
 using CityPop.Character;
 using CityPop.CharacterCreator.Views;
+using CityPop.Player.Constants;
+using CityPop.Player.Data;
+using CityPop.Player.Extensions;
 using Core;
 using Persistence;
-using Player.Data;
 using SavegameSelector.Data;
 using SavegameSelector.Views;
-using UnityEngine.Assertions.Must;
+using UnityEngine;
 using Zen.Core.Addressables;
 using Zen.Core.View;
 
@@ -25,16 +27,19 @@ namespace CityPop.Core.Initialization
             using (Addressables.LoadComponent("Ui/Savegame Selector", out SavegameSelectorMenu prefab))
             {
                 var persistenceService = ServiceLocator.Get<PersistenceService>();
-                var playersData = persistenceService.LoadFolder<PlayerData>("Players");
+                var playersData = persistenceService.LoadFolder<PlayerData>(PlayerDataConstants.PersistenceFolderPath);
                 Array.Sort(playersData, (a,b) => a.CreationDate.CompareTo(b.CreationDate));
+                var players = playersData.ToList();
                 var view = Instantiate(prefab);
                 view.SavegameSelectorData = new SavegameSelectorData()
                 {
-                    Players = playersData.ToList()
+                    Players = players
                 };
 
                 view.EventCreateNew += CreateNew;
-                view.EventCharacterSelected += SelectCharacter;
+                view.EventPlayerSelected += SelectPlayer;
+                view.EventPlayerEdit += EditPlayer;
+                view.EventPlayerDelete += DeletePlayer;
 
                 void CreateNew()
                 {
@@ -56,16 +61,31 @@ namespace CityPop.Core.Initialization
                     });
                 }
 
-                void SelectCharacter(PlayerData player)
+                void SelectPlayer(PlayerData player)
+                {
+                    Debug.Log("Start Game");
+                }
+
+                void EditPlayer(PlayerData player)
                 {
                     CloseSavegameSelector();
                     OpenCharacterCreator(player);
                 }
 
+                void DeletePlayer(PlayerData player)
+                {
+                    players.Remove(player);
+                    view.SavegameSelectorData.Players = view.SavegameSelectorData.Players; 
+                    persistenceService.Delete(player.GetSaveFilePath());
+                }
+
                 void CloseSavegameSelector()
                 {
                     view.EventCreateNew -= CreateNew;
-                    view.EventCharacterSelected -= SelectCharacter;
+                    view.EventPlayerSelected -= EditPlayer;
+                    view.EventPlayerEdit -= EditPlayer;
+                    view.EventPlayerDelete -= DeletePlayer;
+
                     view.SavegameSelectorData = null;
                     view.PushViewToObjectPool();
                 }
@@ -90,7 +110,7 @@ namespace CityPop.Core.Initialization
                 void SavePlayer(PlayerData playerData)
                 {
                     var persistenceService = ServiceLocator.Get<PersistenceService>();
-                    persistenceService.Save($"Players/{playerData.Guid}.json", playerData);
+                    persistenceService.Save(playerData.GetSaveFilePath(), playerData);
                 }
 
                 void CloseCharacterCreator()

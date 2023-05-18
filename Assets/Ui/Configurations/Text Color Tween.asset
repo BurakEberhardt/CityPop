@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TransitionDuration: 0.2
   Normal: {r: 1, g: 1, b: 1, a: 1}
-  Highlighted: {r: 0.5882353, g: 0.34901962, b: 0.9058824, a: 1}
+  Highlighted: {r: 1, g: 0.93635386, b: 0.79607844, a: 1}
   Pressed: {r: 1, g: 0.9336439, b: 0.6556604, a: 1}
   Selected: {r: 1, g: 1, b: 1, a: 1}
   Disabled: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}

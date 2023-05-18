@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2566317244666966580}
   - component: {fileID: 972464862421281281}
   - component: {fileID: 8039856871684356402}
+  - component: {fileID: 1034784865363272187}
   m_Layer: 5
   m_Name: Ui
   m_TagString: Untagged
@@ -52,7 +53,7 @@ Canvas:
   m_GameObject: {fileID: 2682132069986855051}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -106,6 +107,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1034784865363272187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2682132069986855051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3b2abfb3784db2a4d5290ceeec5500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3306976514070421999
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,6 +2076,16 @@ PrefabInstance:
       value: Create
       objectReference: {fileID: 0}
     - target: {fileID: 3618610598917520891, guid: c7a1674adf0b1a943916dac2e7900992,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179930352024959410, guid: c7a1674adf0b1a943916dac2e7900992,
+        type: 3}
+      propertyPath: m_text
+      value: Save
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179930352024959410, guid: c7a1674adf0b1a943916dac2e7900992,
         type: 3}
       propertyPath: m_fontSize
       value: 72

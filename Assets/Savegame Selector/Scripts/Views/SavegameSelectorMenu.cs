@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using CityPop.Character;
 using CityPop.Core.ListSynchronizer;
-using Player.Data;
+using CityPop.Player.Data;
 using SavegameSelector.Data;
 using UnityEngine;
 using Zen.Core.View;
@@ -27,7 +27,9 @@ namespace SavegameSelector.Views
         ListSynchronizer<PlayerData, SavegameSlotUiView, PlayerData> _savegameUiSlotViewsSynchronizer;
 
         public event Action EventCreateNew;
-        public event Action<PlayerData> EventCharacterSelected;
+        public event Action<PlayerData> EventPlayerEdit;
+        public event Action<PlayerData> EventPlayerDelete;
+        public event Action<PlayerData> EventPlayerSelected;
 
 
         [OnEnable]
@@ -152,16 +154,28 @@ namespace SavegameSelector.Views
             // Debug.Log($"{nameof(SavegameSelectorData.IPlayersListener.OnPlayers)}({players.Count}, {stopwatch.ElapsedTicks})");
         }
 
-        void OnCharacterSelected(PlayerData player)
+        void OnSelectPlayer(PlayerData player)
         {
-            EventCharacterSelected?.Invoke(player);
+            EventPlayerSelected?.Invoke(player);
+        }
+        
+        void OnEditPlayer(PlayerData player)
+        {
+            EventPlayerEdit?.Invoke(player);
+        }
+        
+        void OnDeletePlayer(PlayerData player)
+        {
+            EventPlayerDelete?.Invoke(player);
         }
 
         SavegameSlotUiView CreateSlotUi(PlayerData data, int index)
         {
             var view = _savegameSlotView.GetViewFromObjectPool(_savegameSlotParent);
             view.PlayerData = data;
-            view.EventClicked += OnCharacterSelected;
+            view.EventSelected += OnSelectPlayer;
+            view.EventEdit += OnEditPlayer;
+            view.EventDelete += OnDeletePlayer;
             UpdateSlotUi(view, data, -1, index);
             return view;
         }
@@ -169,7 +183,9 @@ namespace SavegameSelector.Views
         void RemoveSlotUi(SavegameSlotUiView view, int index)
         {
             view.PlayerData = null;
-            view.EventClicked -= OnCharacterSelected;
+            view.EventSelected -= OnSelectPlayer;
+            view.EventSelected -= OnEditPlayer;
+            view.EventDelete -= OnDeletePlayer;
             view.PushViewToObjectPool();
         }
 

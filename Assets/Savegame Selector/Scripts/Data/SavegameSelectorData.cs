@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Player.Data;
+using CityPop.Player.Data;
 using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace SavegameSelector.Data

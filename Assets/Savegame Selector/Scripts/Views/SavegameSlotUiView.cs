@@ -1,7 +1,7 @@
 ﻿using System;
 using CityPop.CharacterToTexture.Data;
 using CityPop.CharacterToTexture.Views;
-using Player.Data;
+using CityPop.Player.Data;
 using TMPro;
 using UnityEngine;
 using Zen.Core.View;
@@ -18,26 +18,44 @@ namespace SavegameSelector.Views
     {
         [SerializeField] CharacterSpriteView _characterVisuals;
         [SerializeField] TextMeshProUGUI _name;
-        [SerializeField] Button _button;
+        [SerializeField] Button _selectButton;
+        [SerializeField] Button _editButton;
+        [SerializeField] Button _deleteButton;
 
-        public event Action<PlayerData> EventClicked;
+        public event Action<PlayerData> EventSelected;
+        public event Action<PlayerData> EventEdit;
+        public event Action<PlayerData> EventDelete;
         
         void PlayerData.IAddedListener.OnAdded(PlayerData playerData)
         {
             _characterVisuals.CharacterData = playerData.Character;
             _name.text = playerData.Character.Name;
-            _button.onClick.AddListener(OnClick);
+            _selectButton.onClick.AddListener(Select);
+            _editButton.onClick.AddListener(Edit);
+            _deleteButton.onClick.AddListener(Delete);
         }
 
         void PlayerData.IRemovedListener.OnRemoved()
         {
             _characterVisuals.CharacterData = null;
-            _button.onClick.RemoveListener(OnClick);
+            _selectButton.onClick.RemoveListener(Select);
+            _editButton.onClick.RemoveListener(Edit);
+            _deleteButton.onClick.RemoveListener(Delete);
         }
 
-        void OnClick()
+        void Select()
         {
-            EventClicked?.Invoke(PlayerData);
+            EventSelected?.Invoke(PlayerData);
+        }
+        
+        void Edit()
+        {
+            EventEdit?.Invoke(PlayerData);
+        }
+        
+        void Delete()
+        {
+            EventDelete?.Invoke(PlayerData);
         }
     }
 }

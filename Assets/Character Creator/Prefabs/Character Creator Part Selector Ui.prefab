@@ -175,6 +175,16 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 6179930352024959410, guid: c7a1674adf0b1a943916dac2e7900992,
+        type: 3}
+      propertyPath: m_text
+      value: <
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179930352024959410, guid: c7a1674adf0b1a943916dac2e7900992,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 6499907171388934637, guid: c7a1674adf0b1a943916dac2e7900992,
         type: 3}
       propertyPath: m_Pivot.x
@@ -317,6 +327,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 976015381991616437}
     m_Modifications:
     - target: {fileID: 3618610598917520891, guid: c7a1674adf0b1a943916dac2e7900992,
+        type: 3}
+      propertyPath: m_text
+      value: '>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6179930352024959410, guid: c7a1674adf0b1a943916dac2e7900992,
         type: 3}
       propertyPath: m_text
       value: '>'

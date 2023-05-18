@@ -46,7 +46,7 @@ namespace Zen.Ui.Selectable
                 {
                     _emission.EmissionStrength = Mathf.Lerp(emissionStrength, config.Strength, t);
                     _emission.EmissionColor = Color.Lerp(color, config.Color, t);
-                });
+                }).Play();
             }
         }
     }
