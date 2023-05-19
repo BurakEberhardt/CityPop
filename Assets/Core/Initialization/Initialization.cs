@@ -64,6 +64,7 @@ namespace CityPop.Core.Initialization
                 void SelectPlayer(PlayerData player)
                 {
                     Debug.Log("Start Game");
+                    CloseSavegameSelector();
                 }
 
                 void EditPlayer(PlayerData player)
