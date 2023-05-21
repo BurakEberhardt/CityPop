@@ -1,4 +1,5 @@
 ﻿using CityPop.Character;
+using CityPop.Character.Interfaces;
 using CityPop.CharacterToTexture.Data;
 using Core;
 using UnityEngine;
@@ -10,12 +11,12 @@ using Zen.CodeGeneration.UnityMethods.Attributes;
 namespace CityPop.CharacterToTexture.Views
 {
     [DataBinding(typeof(CharacterSpriteData), Accessibility.Private)]
-    [DataBinding(typeof(CharacterData))]
-    public partial class CharacterSpriteView : View
+    [DataBinding(typeof(CharacterVisualsData))]
+    public partial class CharacterSpriteView : View, ICharacterVisualsView
         , CharacterSpriteData.ISpriteListener
         , CharacterSpriteData.IRemovedListener
-        , CharacterData.IAddedListener
-        , CharacterData.IRemovedListener
+        , CharacterVisualsData.IAddedListener
+        , CharacterVisualsData.IRemovedListener
     {
         [SerializeField] RawImage _image;
         Texture2D _texture;
@@ -37,16 +38,16 @@ namespace CityPop.CharacterToTexture.Views
             Destroy(_texture);
         }
 
-        void CharacterData.IAddedListener.OnAdded(CharacterData characterData)
+        void CharacterVisualsData.IAddedListener.OnAdded(CharacterVisualsData characterData)
         {
-            CharacterSpriteData = new CharacterSpriteData() {Character = characterData};
+            CharacterSpriteData = new CharacterSpriteData() {CharacterVisuals = characterData};
             var characterToSpriteData = ServiceLocator.Get<CharacterToSpriteService>().Data;
             characterToSpriteData.CharacterSprites.Add(CharacterSpriteData);
             // TODO: Introduce add for IList data types so I don't have to trigger the event like this
             characterToSpriteData.CharacterSprites = characterToSpriteData.CharacterSprites;
         }
 
-        void CharacterData.IRemovedListener.OnRemoved()
+        void CharacterVisualsData.IRemovedListener.OnRemoved()
         {
             var characterToSpriteData = ServiceLocator.Get<CharacterToSpriteService>().Data;
             characterToSpriteData.CharacterSprites.Remove(CharacterSpriteData);

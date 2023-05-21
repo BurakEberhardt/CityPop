@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Start Session
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Start Session
   m_Data:
     m_SerializedData: []
-  m_GUID: f4c0ef05722fe9a4aae126994045e3a1
+  m_GUID: a05eab2bb8202ef418557d662bae892e
   m_SerializeEntries:
-  - m_GUID: 6fd80bef33087b2408c18194bd44dbc3
-    m_Address: CharacterToSpriteService
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 081d6acaac1906b49b9f9c6c8d5dc7b0
-    m_Address: Assets/Character/Visuals/Prefabs/Character Controller.prefab
+  - m_GUID: 2f393aa11b7c8c349869eb676ab18d67
+    m_Address: Ui/Start Session
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 4ccdcc25a5d66414981dba779994e41c, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 3b354ccd07dcfbf4786cf7a56317b154, type: 2}
-    - {fileID: 11400000, guid: 0cd10666865bde741b6fed7f9c49d8b8, type: 2}
+    - {fileID: 11400000, guid: a1df603200c7a594c8a6bcf5e77951a3, type: 2}
+    - {fileID: 11400000, guid: a0ed5f92fdd4e5b4186eaa42f6c2bd58, type: 2}

@@ -28,7 +28,7 @@ namespace SavegameSelector.Views
         
         void PlayerData.IAddedListener.OnAdded(PlayerData playerData)
         {
-            _characterVisuals.CharacterData = playerData.Character;
+            _characterVisuals.CharacterVisualsData = playerData.Character.Visuals;
             _name.text = playerData.Character.Name;
             _selectButton.onClick.AddListener(Select);
             _editButton.onClick.AddListener(Edit);
@@ -37,7 +37,7 @@ namespace SavegameSelector.Views
 
         void PlayerData.IRemovedListener.OnRemoved()
         {
-            _characterVisuals.CharacterData = null;
+            _characterVisuals.CharacterVisualsData = null;
             _selectButton.onClick.RemoveListener(Select);
             _editButton.onClick.RemoveListener(Edit);
             _deleteButton.onClick.RemoveListener(Delete);

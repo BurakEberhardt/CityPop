@@ -7,7 +7,7 @@ namespace CityPop.CharacterToTexture.Data
     [Data]
     public partial class CharacterSpriteData
     {
-        public CharacterData Character { get; set; }
+        public CharacterVisualsData CharacterVisuals { get; set; }
         [Data] RTSprite _sprite;
 
         public struct RTSprite

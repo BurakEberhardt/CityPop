@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using CityPop.Character.Interfaces;
+using UnityEngine;
 using Zen.Core.View;
 using Zen.CodeGeneration.DataBinding.Attributes;
 
 namespace CityPop.Character
 {
     [DataBinding(typeof(CharacterVisualsData))]
-    public partial class CharacterVisualsView : View
+    public partial class CharacterVisualsView : View, ICharacterVisualsView
         , CharacterVisualsData.IAddedListener
         , CharacterVisualsData.IRemovedListener
     {

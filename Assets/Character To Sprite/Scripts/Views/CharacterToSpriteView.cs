@@ -37,7 +37,7 @@ namespace CityPop.CharacterToTexture.Views
 
             _characterSpritesViewDataSynchronizer ??= new ListSynchronizer<CharacterVisualsData, CharacterVisualsView, CharacterSpriteData>(
                 view => view.CharacterVisualsData,
-                data => data.Character.Visuals,
+                data => data.CharacterVisuals,
                 CreateView,
                 DeleteView,
                 UpdateView);
@@ -54,7 +54,7 @@ namespace CityPop.CharacterToTexture.Views
         CharacterVisualsView CreateView(CharacterSpriteData data, int index)
         {
             var characterVisualsView = _characterVisualsView.GetViewFromObjectPool(transform);
-            characterVisualsView.CharacterVisualsData = data.Character.Visuals;
+            characterVisualsView.CharacterVisualsData = data.CharacterVisuals;
             UpdateView(characterVisualsView, data, -1, index);
 
             return characterVisualsView;

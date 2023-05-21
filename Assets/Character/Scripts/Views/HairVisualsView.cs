@@ -19,7 +19,7 @@ namespace CityPop.Character
             var configuration = hairAsset.WaitForCompletion();
             hairAsset.Release();
 
-            transform.localPosition = configuration.Position;
+            transform.localPosition = new Vector3(configuration.Position.x, configuration.Position.y, transform.localPosition.z);
             _hairRenderer.sprite = configuration.Sprite;
         }
 

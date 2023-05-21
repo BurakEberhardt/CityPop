@@ -25,7 +25,7 @@ namespace CityPop.CharacterCreator.Views
 
         void CharacterData.IAddedListener.OnAdded(CharacterData characterData)
         {
-            _characterView.CharacterData = _characterData;
+            _characterView.CharacterVisualsData = _characterData.Visuals;
             
             _characterCreatorBodySelectorUiView.BodyVisualsData = _characterData.Visuals.Body;
             _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = _configuration.Body;
@@ -43,7 +43,7 @@ namespace CityPop.CharacterCreator.Views
 
         void CharacterData.IRemovedListener.OnRemoved()
         {
-            _characterView.CharacterData = null;
+            _characterView.CharacterVisualsData = null;
             
             _characterCreatorBodySelectorUiView.BodyVisualsData = null;
             _characterCreatorBodySelectorUiView.CharacterCreatorBodyConfiguration = null;

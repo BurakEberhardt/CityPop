@@ -9,6 +9,7 @@ using Core;
 using Persistence;
 using SavegameSelector.Data;
 using SavegameSelector.Views;
+using StartSession.Views;
 using UnityEngine;
 using Zen.Core.Addressables;
 using Zen.Core.View;
@@ -28,7 +29,7 @@ namespace CityPop.Core.Initialization
             {
                 var persistenceService = ServiceLocator.Get<PersistenceService>();
                 var playersData = persistenceService.LoadFolder<PlayerData>(PlayerDataConstants.PersistenceFolderPath);
-                Array.Sort(playersData, (a,b) => a.CreationDate.CompareTo(b.CreationDate));
+                Array.Sort(playersData, (a, b) => a.CreationDate.CompareTo(b.CreationDate));
                 var players = playersData.ToList();
                 var view = Instantiate(prefab);
                 view.SavegameSelectorData = new SavegameSelectorData()
@@ -63,8 +64,8 @@ namespace CityPop.Core.Initialization
 
                 void SelectPlayer(PlayerData player)
                 {
-                    Debug.Log("Start Game");
                     CloseSavegameSelector();
+                    OpenStartSessionMenu(player);
                 }
 
                 void EditPlayer(PlayerData player)
@@ -76,7 +77,7 @@ namespace CityPop.Core.Initialization
                 void DeletePlayer(PlayerData player)
                 {
                     players.Remove(player);
-                    view.SavegameSelectorData.Players = view.SavegameSelectorData.Players; 
+                    view.SavegameSelectorData.Players = view.SavegameSelectorData.Players;
                     persistenceService.Delete(player.GetSaveFilePath());
                 }
 
@@ -117,7 +118,46 @@ namespace CityPop.Core.Initialization
                 void CloseCharacterCreator()
                 {
                     view.EventCreate -= OnCreate;
+                    
                     view.CharacterData = null;
+                    view.PushViewToObjectPool();
+                }
+            }
+        }
+
+        static void OpenStartSessionMenu(PlayerData playerData)
+        {
+            using (Addressables.LoadComponent("Ui/Start Session", out StartSessionMenu prefab))
+            {
+                var view = Instantiate(prefab);
+                view.PlayerData = playerData;
+                view.EventHost += OnHost;
+                view.EventJoin += OnJoin;
+                view.EventChangeCharacter += OnChangeCharacter;
+
+                void OnHost(PlayerData playerData)
+                {
+                    Debug.Log($"Host as {playerData.Character.Name}");
+                }
+                
+                void OnJoin(PlayerData playerData, string address)
+                {
+                    Debug.Log($"Join \"{address}\" as {playerData.Character.Name}");
+                }
+
+                void OnChangeCharacter(PlayerData playerData)
+                {
+                    CloseStartSession();
+                    OpenSavegameSelector();
+                }
+
+                void CloseStartSession()
+                {
+                    view.EventHost -= OnHost;
+                    view.EventJoin -= OnJoin;
+                    view.EventChangeCharacter -= OnChangeCharacter;
+                    
+                    view.PlayerData = null;
                     view.PushViewToObjectPool();
                 }
             }

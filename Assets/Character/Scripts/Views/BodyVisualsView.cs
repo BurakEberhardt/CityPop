@@ -20,7 +20,7 @@ namespace CityPop.Character
             var configuration = bodyAsset.WaitForCompletion();
             bodyAsset.Release();
 
-            transform.localPosition = configuration.Position;
+            transform.localPosition = new Vector3(configuration.Position.x, configuration.Position.y, transform.localPosition.z);
             _bodyRenderer.sprite = configuration.Sprite;
         }
 
