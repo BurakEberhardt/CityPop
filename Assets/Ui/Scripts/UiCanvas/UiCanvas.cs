@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using CityPop.Core.Camera;
+using Core;
 using UnityEngine;
 using Zen.Core.View;
 
