@@ -18,6 +18,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using Zen.Core.Addressables;
+using Zen.Core.Extensions;
 using Zen.Core.View;
 
 namespace CityPop.MainMenu.Contexts
@@ -29,7 +30,7 @@ namespace CityPop.MainMenu.Contexts
             var context = await Context.LoadAsync<MainMenuContext>("Main Menu");
             OpenSavegameSelector();
         }
-        
+
         static void OpenSavegameSelector()
         {
             using (Addressables.LoadComponent("Ui/Savegame Selector", out SavegameSelectorMenu prefab))
@@ -125,7 +126,7 @@ namespace CityPop.MainMenu.Contexts
                 void CloseCharacterCreator()
                 {
                     view.EventCreate -= OnCreate;
-                    
+
                     view.CharacterData = null;
                     view.PushViewToObjectPool();
                 }
@@ -145,10 +146,10 @@ namespace CityPop.MainMenu.Contexts
                 async void OnHost(PlayerData playerData)
                 {
                     Debug.Log($"Hosting as {playerData.Character.Name}");
-                    
+
                     CloseStartSession();
                     NetworkManager.Singleton.StartHost();
-                    
+
                     await GameplayContext.Initialize(new WorldData()
                     {
                         SpawnPosition = new WorldPosition()
@@ -158,17 +159,13 @@ namespace CityPop.MainMenu.Contexts
                         }
                     }, playerData);
                 }
-                
+
                 void OnJoin(PlayerData playerData, string address)
                 {
                     Debug.Log($"Join \"{address}\" as {playerData.Character.Name}");
 
                     CloseStartSession();
-                    NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(
-                        address,  // The IP address is a string
-                        (ushort)12345 // The port number is an unsigned short
-                    );
-                    NetworkManager.Singleton.StartClient();
+                    NetworkManager.Singleton.StartClient(address, 12345);
                 }
 
                 void OnChangeCharacter(PlayerData playerData)
@@ -182,7 +179,7 @@ namespace CityPop.MainMenu.Contexts
                     view.EventHost -= OnHost;
                     view.EventJoin -= OnJoin;
                     view.EventChangeCharacter -= OnChangeCharacter;
-                    
+
                     view.PlayerData = null;
                     view.PushViewToObjectPool();
                 }

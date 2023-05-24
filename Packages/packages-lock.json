@@ -314,7 +314,8 @@
         "com.unity.addressables": "1.0.0",
         "com.zen.newtonsoft-json": "3.2.1",
         "com.zen.demigiant.dotween": "1.2.705",
-        "com.marijnzwemmer.unity-toolbar-extender": "1.4.2"
+        "com.marijnzwemmer.unity-toolbar-extender": "1.4.2",
+        "com.unity.netcode.gameobjects": "1.2.0"
       }
     },
     "com.zen.demigiant.dotween": {
