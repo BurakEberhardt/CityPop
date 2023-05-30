@@ -3,9 +3,10 @@ using Character.Scripts.Data;
 using CityPop.Character;
 using CityPop.Gameplay.Views;
 using CityPop.MainMenu.Contexts;
-using CityPop.Map.Views;
+using CityPop.Map;
 using CityPop.Player.Data;
 using CityPop.World.Data;
+using Core;
 using Core.Context;
 using Unity.Netcode;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace CityPop.Gameplay.Contexts
         {
             var context = await Context.LoadAsync<GameplayContext>("Gameplay");
 
-            LoadMap(worldData.SpawnPosition.MapId);
+            await ServiceLocator.Get<MapService>().LoadMapAsync(worldData.SpawnPosition.MapId);
             SpawnPlayer(playerData, worldData.SpawnPosition.Position);
             OpenGameplayUi();
         }
@@ -30,7 +31,6 @@ namespace CityPop.Gameplay.Contexts
             using (Addressables.LoadComponent<GameplayUi>("Ui/Gameplay", out var prefab))
             {
                 var view = prefab.GetViewFromObjectPool();
-
                 view.EventOnClose += OnClose;
 
                 void OnClose()
@@ -55,14 +55,6 @@ namespace CityPop.Gameplay.Contexts
                     view.EventOnClose -= OnClose;
                     view.PushViewToObjectPool();
                 }
-            }
-        }
-
-        static void LoadMap(MapId mapId)
-        {
-            using (Addressables.LoadComponent<MapView>($"Maps/Map/{mapId}", out var prefab))
-            {
-                var view = prefab.GetViewFromObjectPool();
             }
         }
 
